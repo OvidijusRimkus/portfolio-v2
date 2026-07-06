@@ -1,4 +1,3 @@
-
 // backend/src/app.js
 
 import express from 'express';
@@ -9,19 +8,21 @@ import rateLimit from 'express-rate-limit';
 
 import { env } from './config/env.js';
 import { prisma } from './db/prisma.js';
+import { catchAsync } from './utils/catchAsync.js';
+import { notFoundMiddleware } from './middleware/notFound.middleware.js';
+import { errorMiddleware } from './middleware/error.middleware.js';
 
 const app = express();
 
 /**
  * Helmet prideda saugumo HTTP headerius.
- * Tai paprasta, bet profesionali production-style apsauga.
  */
 app.use(helmet());
 
 /**
- * CORS leidžia frontend aplikacijai bendrauti su backend.
+ * CORS reikalingas frontend/backend komunikacijai.
  *
- * credentials: true reikalinga, nes JWT saugosime HttpOnly cookie.
+ * credentials: true būtinas, nes auth etape JWT saugosime HttpOnly cookie.
  */
 app.use(
   cors({
@@ -32,7 +33,7 @@ app.use(
 
 /**
  * Bendras API rate limit.
- * Vėliau auth route'ams pridėsime atskirą griežtesnį limitą.
+ * Vėliau auth route turės atskirą griežtesnį limitą.
  */
 app.use(
   rateLimit({
@@ -48,7 +49,6 @@ app.use(cookieParser());
 
 /**
  * API root endpointas.
- * Greitam testui, ar backend serveris veikia.
  */
 app.get('/api', (req, res) => {
   res.status(200).json({
@@ -60,11 +60,11 @@ app.get('/api', (req, res) => {
 /**
  * Health check endpointas.
  *
- * Čia tikriname ne tik Express,
- * bet ir realų ryšį su PostgreSQL per Prisma.
+ * catchAsync užtikrina, kad klaidos keliautų į global error middleware.
  */
-app.get('/api/health', async (req, res, next) => {
-  try {
+app.get(
+  '/api/health',
+  catchAsync(async (req, res) => {
     await prisma.$queryRaw`SELECT 1`;
 
     res.status(200).json({
@@ -75,33 +75,14 @@ app.get('/api/health', async (req, res, next) => {
         database: 'up',
       },
     });
-  } catch (error) {
-    next(error);
-  }
-});
+  }),
+);
 
 /**
- * Laikinas 404 handleris.
- * Vėliau iškelsime į atskirą middleware failą.
+ * 404 ir global error middleware turi būti pačioje app.js apačioje,
+ * po visų route.
  */
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route not found: ${req.originalUrl}`,
-  });
-});
-
-/**
- * Laikinas global error handleris.
- * Vėliau iškelsime į atskirą middleware failą.
- */
-app.use((error, req, res, next) => {
-  console.error(error);
-
-  res.status(500).json({
-    success: false,
-    message: 'Internal server error',
-  });
-});
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 export default app;
