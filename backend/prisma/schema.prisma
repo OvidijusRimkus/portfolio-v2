@@ -26,3 +26,23 @@ model Admin {
 
   @@map("admins")
 }
+
+/**
+ * ContactMessage modelis saugo žinutes iš portfolio kontaktų formos.
+ *
+ * Vėliau Admin Dashboard galės:
+ * - matyti visas žinutes;
+ * - filtruoti pagal perskaityta / neperskaityta;
+ * - matyti kada žinutė buvo sukurta.
+ */
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contact_messages")
+}

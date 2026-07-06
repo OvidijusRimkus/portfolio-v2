@@ -11,6 +11,7 @@ import { prisma } from './db/prisma.js';
 import { catchAsync } from './utils/catchAsync.js';
 import { notFoundMiddleware } from './middleware/notFound.middleware.js';
 import { errorMiddleware } from './middleware/error.middleware.js';
+import { contactRoutes } from './modules/contact/contact.routes.js';
 
 const app = express();
 
@@ -59,8 +60,6 @@ app.get('/api', (req, res) => {
 
 /**
  * Health check endpointas.
- *
- * catchAsync užtikrina, kad klaidos keliautų į global error middleware.
  */
 app.get(
   '/api/health',
@@ -77,6 +76,11 @@ app.get(
     });
   }),
 );
+
+/**
+ * Feature routes.
+ */
+app.use('/api/contact', contactRoutes);
 
 /**
  * 404 ir global error middleware turi būti pačioje app.js apačioje,
