@@ -1,8 +1,10 @@
 // frontend/src/features/home/pages/HomePage.jsx
 
+import { ContactPreview } from '../../contact/components/ContactPreview.jsx';
 import { FeaturedProjects } from '../components/FeaturedProjects.jsx';
 import { Hero } from '../components/Hero.jsx';
 import { TechStack } from '../components/TechStack.jsx';
+import { Footer } from '../../../shared/layouts/Footer.jsx';
 
 /**
  * HomePage yra puslapio kompozicija.
@@ -16,12 +18,8 @@ export function HomePage() {
       <Hero />
       <TechStack />
       <FeaturedProjects />
-
-      <section id="contact" className="border-t border-white/10 py-24">
-        <div className="mx-auto max-w-7xl px-6 text-white/50 sm:px-10 lg:px-16">
-          Contact section will be added later.
-        </div>
-      </section>
+      <ContactPreview />
+      <Footer />
     </main>
   );
 }
