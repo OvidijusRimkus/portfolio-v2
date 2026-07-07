@@ -11,6 +11,7 @@ import { prisma } from './db/prisma.js';
 import { catchAsync } from './utils/catchAsync.js';
 import { notFoundMiddleware } from './middleware/notFound.middleware.js';
 import { errorMiddleware } from './middleware/error.middleware.js';
+import { authRoutes } from './modules/auth/auth.routes.js';
 import { contactRoutes } from './modules/contact/contact.routes.js';
 
 const app = express();
@@ -23,7 +24,7 @@ app.use(helmet());
 /**
  * CORS reikalingas frontend/backend komunikacijai.
  *
- * credentials: true būtinas, nes auth etape JWT saugosime HttpOnly cookie.
+ * credentials: true būtinas, nes JWT saugomas HttpOnly cookie.
  */
 app.use(
   cors({
@@ -34,7 +35,7 @@ app.use(
 
 /**
  * Bendras API rate limit.
- * Vėliau auth route turės atskirą griežtesnį limitą.
+ * Vėliau auth route'ams galėsime pridėti dar griežtesnį limitą.
  */
 app.use(
   rateLimit({
@@ -80,10 +81,11 @@ app.get(
 /**
  * Feature routes.
  */
+app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 
 /**
- * 404 ir global error middleware turi būti pačioje app.js apačioje,
+ * 404 ir global error middleware turi būti apačioje,
  * po visų route.
  */
 app.use(notFoundMiddleware);
