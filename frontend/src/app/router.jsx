@@ -2,21 +2,27 @@
 
 import { createBrowserRouter } from 'react-router-dom';
 
+import { DashboardPage } from '../features/admin/pages/DashboardPage.jsx';
+import { LoginPage } from '../features/auth/pages/LoginPage.jsx';
 import { HomePage } from '../features/home/pages/HomePage.jsx';
 
 /**
  * Aplikacijos routing konfigūracija.
  *
- * Kol kas turime tik public Home page.
- * Vėliau čia pridėsime:
- * - /login
- * - /admin
- * - protected admin routes
- * - 404 page
+ * Kol kas /admin dar nėra apsaugotas ProtectedRoute komponentu.
+ * Tai padarysime kitame pakete, kai pridėsime auth bootstrapping logiką.
  */
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/admin',
+    element: <DashboardPage />,
   },
 ]);
