@@ -3,9 +3,9 @@
 import { motion } from 'motion/react';
 import { FiArrowUpRight, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 
-import { Button } from '../../../shared/components/Button.jsx';
 import { Container } from '../../../shared/components/Container.jsx';
 import { SectionHeading } from '../../../shared/components/SectionHeading.jsx';
+import { ContactForm } from './ContactForm.jsx';
 
 const contactLinks = [
   {
@@ -29,10 +29,10 @@ const contactLinks = [
 ];
 
 /**
- * ContactPreview yra public portfolio kontaktų sekcija.
+ * ContactPreview dabar turi tikrą kontaktų formą.
  *
- * Kol kas čia tik UI.
- * Kitame etape sukursime tikrą kontaktų formą su backend /api/contact.
+ * Forma siunčia duomenis į backend:
+ * POST /api/contact
  */
 export function ContactPreview() {
   return (
@@ -41,31 +41,14 @@ export function ContactPreview() {
 
       <Container>
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <SectionHeading
-            eyebrow="Contact"
-            title="Let’s build something clean, useful and production-ready."
-            description="I’m interested in full stack development opportunities, internships, junior developer roles and real product work where clean architecture matters."
-          />
+          <div>
+            <SectionHeading
+              eyebrow="Contact"
+              title="Let’s build something clean, useful and production-ready."
+              description="I’m interested in full stack development opportunities, internships, junior developer roles and real product work where clean architecture matters."
+            />
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.55 }}
-            className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/25 backdrop-blur-xl sm:p-8"
-          >
-            <div className="mb-8 rounded-[1.5rem] border border-amber-400/20 bg-amber-400/10 p-5">
-              <p className="text-sm font-semibold text-amber-300">
-                Available for opportunities
-              </p>
-
-              <p className="mt-3 text-sm leading-6 text-white/60">
-                Currently focused on building a strong full stack portfolio with
-                React, Express, PostgreSQL, Prisma and Docker.
-              </p>
-            </div>
-
-            <div className="grid gap-4">
+            <div className="mt-8 grid gap-3">
               {contactLinks.map((item) => {
                 const Icon = item.icon;
 
@@ -75,10 +58,10 @@ export function ContactPreview() {
                     href={item.href}
                     target={item.href.startsWith('http') ? '_blank' : undefined}
                     rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
-                    className="group flex items-center justify-between rounded-2xl border border-white/10 bg-black/25 p-4 transition hover:border-amber-400/30 hover:bg-white/[0.04]"
+                    className="group flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-amber-400/30 hover:bg-white/[0.05]"
                   >
                     <div className="flex items-center gap-4">
-                      <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white/70 transition group-hover:text-amber-300">
+                      <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-black/25 text-white/70 transition group-hover:text-amber-300">
                         <Icon />
                       </span>
 
@@ -97,17 +80,27 @@ export function ContactPreview() {
                 );
               })}
             </div>
+          </div>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button href="mailto:your.email@example.com">
-                <FiMail />
-                Send email
-              </Button>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.55 }}
+            className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/25 backdrop-blur-xl sm:p-8"
+          >
+            <div className="mb-8 rounded-[1.5rem] border border-amber-400/20 bg-amber-400/10 p-5">
+              <p className="text-sm font-semibold text-amber-300">
+                Send a message
+              </p>
 
-              <Button href="/cv/Ovidijus-Rimkus-CV.pdf" variant="secondary">
-                Download CV
-              </Button>
+              <p className="mt-3 text-sm leading-6 text-white/60">
+                This form is connected to the Express API and stores messages in
+                PostgreSQL through the contact module.
+              </p>
             </div>
+
+            <ContactForm />
           </motion.div>
         </div>
       </Container>
