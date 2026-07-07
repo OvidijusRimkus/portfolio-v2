@@ -1,7 +1,7 @@
 // frontend/src/features/auth/pages/LoginPage.jsx
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { FiLock, FiLogIn, FiUser } from 'react-icons/fi';
 
 import { Button } from '../../../shared/components/Button.jsx';
@@ -15,19 +15,26 @@ const initialFormState = {
 /**
  * Admin login puslapis.
  *
- * Registracijos nėra.
- * Prisijungti gali tik admin vartotojas, sukurtas per backend seed iš .env.
+ * Jeigu admin jau prisijungęs, nukreipiame į /admin.
  */
 export function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const login = useAuthStore((state) => state.login);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isLoading = useAuthStore((state) => state.isLoading);
   const storeError = useAuthStore((state) => state.error);
   const clearError = useAuthStore((state) => state.clearError);
 
   const [formData, setFormData] = useState(initialFormState);
   const [localError, setLocalError] = useState('');
+
+  const redirectPath = location.state?.from?.pathname || '/admin';
+
+  if (isAuthenticated) {
+    return <Navigate to="/admin" replace />;
+  }
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -69,7 +76,9 @@ export function LoginPage() {
         password: formData.password,
       });
 
-      navigate('/admin');
+      navigate(redirectPath, {
+        replace: true,
+      });
     } catch (error) {
       setLocalError(error.message);
     }

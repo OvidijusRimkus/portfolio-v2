@@ -7,19 +7,19 @@ import { loginRequest, logoutRequest, meRequest } from '../services/authApi.js';
 /**
  * Zustand auth store.
  *
- * Čia saugome:
- * - admin duomenis;
- * - ar vartotojas prisijungęs;
- * - loading būseną;
- * - klaidas.
+ * JWT nėra saugomas localStorage.
+ * Jis saugomas backend nustatytame HttpOnly cookie.
  *
- * JWT nėra saugomas frontend state.
- * Jis yra HttpOnly cookie, kurio JavaScript negali perskaityti.
+ * Frontend tik klausia backend:
+ * GET /api/auth/me
+ *
+ * Jeigu cookie galioja, backend grąžina admin.
  */
 export const useAuthStore = create((set) => ({
   admin: null,
   isAuthenticated: false,
   isLoading: false,
+  hasCheckedAuth: false,
   error: null,
 
   login: async ({ username, password }) => {
@@ -38,6 +38,7 @@ export const useAuthStore = create((set) => ({
         admin: data.data.admin,
         isAuthenticated: true,
         isLoading: false,
+        hasCheckedAuth: true,
         error: null,
       });
 
@@ -50,6 +51,7 @@ export const useAuthStore = create((set) => ({
         admin: null,
         isAuthenticated: false,
         isLoading: false,
+        hasCheckedAuth: true,
         error: errorMessage,
       });
 
@@ -70,6 +72,7 @@ export const useAuthStore = create((set) => ({
         admin: null,
         isAuthenticated: false,
         isLoading: false,
+        hasCheckedAuth: true,
         error: null,
       });
     } catch (error) {
@@ -98,6 +101,7 @@ export const useAuthStore = create((set) => ({
         admin: data.data.admin,
         isAuthenticated: true,
         isLoading: false,
+        hasCheckedAuth: true,
         error: null,
       });
 
@@ -107,6 +111,7 @@ export const useAuthStore = create((set) => ({
         admin: null,
         isAuthenticated: false,
         isLoading: false,
+        hasCheckedAuth: true,
         error: null,
       });
 

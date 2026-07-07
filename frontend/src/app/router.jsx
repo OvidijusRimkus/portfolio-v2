@@ -3,26 +3,44 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { DashboardPage } from '../features/admin/pages/DashboardPage.jsx';
+import { AuthInitializer } from '../features/auth/components/AuthInitializer.jsx';
+import { ProtectedRoute } from '../features/auth/components/ProtectedRoute.jsx';
 import { LoginPage } from '../features/auth/pages/LoginPage.jsx';
 import { HomePage } from '../features/home/pages/HomePage.jsx';
 
 /**
  * Aplikacijos routing konfigūracija.
  *
- * Kol kas /admin dar nėra apsaugotas ProtectedRoute komponentu.
- * Tai padarysime kitame pakete, kai pridėsime auth bootstrapping logiką.
+ * AuthInitializer apgaubia routes, kad aplikacija startuodama
+ * patikrintų /api/auth/me.
+ *
+ * ProtectedRoute saugo /admin.
  */
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: (
+      <AuthInitializer>
+        <HomePage />
+      </AuthInitializer>
+    ),
   },
   {
     path: '/login',
-    element: <LoginPage />,
+    element: (
+      <AuthInitializer>
+        <LoginPage />
+      </AuthInitializer>
+    ),
   },
   {
     path: '/admin',
-    element: <DashboardPage />,
+    element: (
+      <AuthInitializer>
+        <ProtectedRoute>
+          <DashboardPage />
+        </ProtectedRoute>
+      </AuthInitializer>
+    ),
   },
 ]);
