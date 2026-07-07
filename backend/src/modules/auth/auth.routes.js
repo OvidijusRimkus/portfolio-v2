@@ -2,21 +2,22 @@
 
 import { Router } from 'express';
 
+import { protect } from '../../middleware/auth.middleware.js';
 import { login, logout, me } from './auth.controller.js';
 
 const router = Router();
 
 /**
- * Auth routes.
- *
- * /login ir /logout bus public.
- * /me kitame pakete apsaugosime su auth middleware.
+ * Public auth routes.
  */
 router.post('/login', login);
 router.post('/logout', logout);
 
-// Kitame pakete čia pridėsime protect middleware:
-// router.get('/me', protect, me);
-router.get('/me', me);
+/**
+ * Protected auth route.
+ *
+ * /me patikrina cookie esantį JWT ir grąžina prisijungusį admin.
+ */
+router.get('/me', protect, me);
 
 export { router as authRoutes };
