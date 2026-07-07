@@ -2,21 +2,45 @@
 
 import { createBrowserRouter } from 'react-router-dom';
 
+import { DashboardPage } from '../features/admin/pages/DashboardPage.jsx';
+import { AuthInitializer } from '../features/auth/components/AuthInitializer.jsx';
+import { ProtectedRoute } from '../features/auth/components/ProtectedRoute.jsx';
+import { LoginPage } from '../features/auth/pages/LoginPage.jsx';
 import { HomePage } from '../features/home/pages/HomePage.jsx';
 
 /**
  * Aplikacijos routing konfigūracija.
  *
- * Kol kas turime tik public Home page.
- * Vėliau čia pridėsime:
- * - /login
- * - /admin
- * - protected admin routes
- * - 404 page
+ * AuthInitializer apgaubia routes, kad aplikacija startuodama
+ * patikrintų /api/auth/me.
+ *
+ * ProtectedRoute saugo /admin.
  */
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: (
+      <AuthInitializer>
+        <HomePage />
+      </AuthInitializer>
+    ),
+  },
+  {
+    path: '/login',
+    element: (
+      <AuthInitializer>
+        <LoginPage />
+      </AuthInitializer>
+    ),
+  },
+  {
+    path: '/admin',
+    element: (
+      <AuthInitializer>
+        <ProtectedRoute>
+          <DashboardPage />
+        </ProtectedRoute>
+      </AuthInitializer>
+    ),
   },
 ]);
