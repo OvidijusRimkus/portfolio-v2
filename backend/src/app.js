@@ -11,6 +11,7 @@ import { prisma } from './db/prisma.js';
 import { catchAsync } from './utils/catchAsync.js';
 import { notFoundMiddleware } from './middleware/notFound.middleware.js';
 import { errorMiddleware } from './middleware/error.middleware.js';
+import { adminRoutes } from './modules/admin/admin.routes.js';
 import { authRoutes } from './modules/auth/auth.routes.js';
 import { contactRoutes } from './modules/contact/contact.routes.js';
 
@@ -35,7 +36,7 @@ app.use(
 
 /**
  * Bendras API rate limit.
- * Vėliau auth route'ams galėsime pridėti dar griežtesnį limitą.
+ * Vėliau auth/admin route'ams galėsime pridėti dar griežtesnį limitą.
  */
 app.use(
   rateLimit({
@@ -83,6 +84,7 @@ app.get(
  */
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/admin', adminRoutes);
 
 /**
  * 404 ir global error middleware turi būti apačioje,
