@@ -5,15 +5,13 @@ import { FiActivity, FiBarChart2, FiInbox, FiLogOut } from 'react-icons/fi';
 import { Button } from '../../../shared/components/Button.jsx';
 import { Container } from '../../../shared/components/Container.jsx';
 import { useAuthStore } from '../../auth/store/authStore.js';
+import { ContactMessagesPanel } from '../components/ContactMessagesPanel.jsx';
 
 /**
- * Laikinas Admin Dashboard puslapis.
+ * Admin Dashboard puslapis.
  *
- * Vėliau čia prijungsime:
- * - analytics korteles;
- * - kontaktų žinutes;
- * - CV download statistiką;
- * - apsilankymų statistiką.
+ * Dabar jau rodo realias kontaktų žinutes iš backend:
+ * GET /api/admin/contact-messages
  */
 export function DashboardPage() {
   const admin = useAuthStore((state) => state.admin);
@@ -39,7 +37,7 @@ export function DashboardPage() {
               </h1>
 
               <p className="mt-2 text-sm text-white/45">
-                Portfolio analytics and admin tools will appear here.
+                Portfolio analytics and admin tools.
               </p>
             </div>
 
@@ -64,8 +62,8 @@ export function DashboardPage() {
             <DashboardCard
               icon={<FiInbox />}
               title="Messages"
-              value="Soon"
-              description="Contact messages will be visible in the dashboard."
+              value="Live"
+              description="Contact messages are now connected to PostgreSQL."
             />
 
             <DashboardCard
@@ -74,6 +72,10 @@ export function DashboardPage() {
               value="Soon"
               description="CV download events will be counted later."
             />
+          </div>
+
+          <div className="mt-8">
+            <ContactMessagesPanel />
           </div>
         </Container>
       </section>
