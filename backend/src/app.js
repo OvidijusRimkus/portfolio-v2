@@ -15,6 +15,7 @@ import { adminRoutes } from './modules/admin/admin.routes.js';
 import { analyticsRoutes } from './modules/analytics/analytics.routes.js';
 import { authRoutes } from './modules/auth/auth.routes.js';
 import { contactRoutes } from './modules/contact/contact.routes.js';
+import { projectRoutes } from './modules/projects/projects.routes.js';
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/projects', projectRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
