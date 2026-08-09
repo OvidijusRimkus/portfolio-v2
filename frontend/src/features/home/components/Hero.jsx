@@ -3,12 +3,23 @@
 import { motion } from 'motion/react';
 import { FiArrowUpRight, FiDownload, FiGithub, FiMail } from 'react-icons/fi';
 
+import { trackAnalyticsEvent } from '../../analytics/services/analyticsApi.js';
 import { Button } from '../../../shared/components/Button.jsx';
 import { Container } from '../../../shared/components/Container.jsx';
 
 const techStack = ['React', 'Express', 'PostgreSQL', 'Prisma', 'Docker'];
 
 export function Hero() {
+  function handleCvDownloadClick() {
+    trackAnalyticsEvent({
+      type: 'cv_download',
+      path: '/cv/Ovidijus-Rimkus-CV.pdf',
+      metadata: {
+        source: 'hero_button',
+      },
+    });
+  }
+
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden py-20">
       <HeroBackground />
@@ -46,7 +57,11 @@ export function Hero() {
                 Contact me
               </Button>
 
-              <Button href="/cv/Ovidijus-Rimkus-CV.pdf" variant="ghost">
+              <Button
+                href="/cv/Ovidijus-Rimkus-CV.pdf"
+                variant="ghost"
+                onClick={handleCvDownloadClick}
+              >
                 <FiDownload />
                 Download CV
               </Button>

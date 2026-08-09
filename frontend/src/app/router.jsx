@@ -1,46 +1,54 @@
 // frontend/src/app/router.jsx
 
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 
 import { DashboardPage } from '../features/admin/pages/DashboardPage.jsx';
+import { usePageViewTracking } from '../features/analytics/hooks/usePageViewTracking.js';
 import { AuthInitializer } from '../features/auth/components/AuthInitializer.jsx';
 import { ProtectedRoute } from '../features/auth/components/ProtectedRoute.jsx';
 import { LoginPage } from '../features/auth/pages/LoginPage.jsx';
 import { HomePage } from '../features/home/pages/HomePage.jsx';
 
 /**
+ * RootRoute leidžia turėti globalią logiką visiems routes.
+ *
+ * Čia prijungiame:
+ * - AuthInitializer
+ * - page view analytics tracking
+ */
+function RootRoute() {
+  usePageViewTracking();
+
+  return (
+    <AuthInitializer>
+      <Outlet />
+    </AuthInitializer>
+  );
+}
+
+/**
  * Aplikacijos routing konfigūracija.
- *
- * AuthInitializer apgaubia routes, kad aplikacija startuodama
- * patikrintų /api/auth/me.
- *
- * ProtectedRoute saugo /admin.
  */
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: (
-      <AuthInitializer>
-        <HomePage />
-      </AuthInitializer>
-    ),
-  },
-  {
-    path: '/login',
-    element: (
-      <AuthInitializer>
-        <LoginPage />
-      </AuthInitializer>
-    ),
-  },
-  {
-    path: '/admin',
-    element: (
-      <AuthInitializer>
-        <ProtectedRoute>
-          <DashboardPage />
-        </ProtectedRoute>
-      </AuthInitializer>
-    ),
+    element: <RootRoute />,
+    children: [
+      {
+        path: '/',
+        element: <HomePage />,
+      },
+      {
+        path: '/login',
+        element: <LoginPage />,
+      },
+      {
+        path: '/admin',
+        element: (
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        ),
+      },
+    ],
   },
 ]);
