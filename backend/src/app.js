@@ -12,21 +12,14 @@ import { catchAsync } from './utils/catchAsync.js';
 import { notFoundMiddleware } from './middleware/notFound.middleware.js';
 import { errorMiddleware } from './middleware/error.middleware.js';
 import { adminRoutes } from './modules/admin/admin.routes.js';
+import { analyticsRoutes } from './modules/analytics/analytics.routes.js';
 import { authRoutes } from './modules/auth/auth.routes.js';
 import { contactRoutes } from './modules/contact/contact.routes.js';
 
 const app = express();
 
-/**
- * Helmet prideda saugumo HTTP headerius.
- */
 app.use(helmet());
 
-/**
- * CORS reikalingas frontend/backend komunikacijai.
- *
- * credentials: true būtinas, nes JWT saugomas HttpOnly cookie.
- */
 app.use(
   cors({
     origin: env.CLIENT_URL,
@@ -34,10 +27,6 @@ app.use(
   }),
 );
 
-/**
- * Bendras API rate limit.
- * Vėliau auth/admin route'ams galėsime pridėti dar griežtesnį limitą.
- */
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -50,9 +39,6 @@ app.use(
 app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 
-/**
- * API root endpointas.
- */
 app.get('/api', (req, res) => {
   res.status(200).json({
     success: true,
@@ -60,9 +46,6 @@ app.get('/api', (req, res) => {
   });
 });
 
-/**
- * Health check endpointas.
- */
 app.get(
   '/api/health',
   catchAsync(async (req, res) => {
@@ -79,17 +62,11 @@ app.get(
   }),
 );
 
-/**
- * Feature routes.
- */
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
-/**
- * 404 ir global error middleware turi būti apačioje,
- * po visų route.
- */
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 

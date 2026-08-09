@@ -29,11 +29,6 @@ model Admin {
 
 /**
  * ContactMessage modelis saugo žinutes iš portfolio kontaktų formos.
- *
- * Vėliau Admin Dashboard galės:
- * - matyti visas žinutes;
- * - filtruoti pagal perskaityta / neperskaityta;
- * - matyti kada žinutė buvo sukurta.
  */
 model ContactMessage {
   id        String   @id @default(uuid())
@@ -45,4 +40,31 @@ model ContactMessage {
   updatedAt DateTime @updatedAt
 
   @@map("contact_messages")
+}
+
+/**
+ * AnalyticsEvent modelis saugo portfolio įvykius:
+ * - page_view
+ * - cv_download
+ * - contact_submit
+ *
+ * Vėliau galėsime pridėti:
+ * - country
+ * - device
+ * - browser
+ * - OS
+ * - session duration
+ */
+model AnalyticsEvent {
+  id        String   @id @default(uuid())
+  type      String
+  path      String?
+  metadata  Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([type])
+  @@index([createdAt])
+  @@map("analytics_events")
 }
