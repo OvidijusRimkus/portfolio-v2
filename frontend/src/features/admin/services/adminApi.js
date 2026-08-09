@@ -26,3 +26,15 @@ export async function markContactMessageAsRead(id) {
 
   return response.data;
 }
+
+/**
+ * Grąžina analytics santrauką admin dashboardui.
+ *
+ * Backend endpoint:
+ * GET /api/analytics/summary
+ */
+export async function getAnalyticsSummary() {
+  const response = await apiClient.get('/analytics/summary');
+
+  return response.data;
+}
