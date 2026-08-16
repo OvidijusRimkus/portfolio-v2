@@ -12,9 +12,27 @@ import { ProjectDetailsPage } from '../features/projects/pages/ProjectDetailsPag
 import { AppErrorPage } from '../shared/pages/AppErrorPage.jsx';
 import { NotFoundPage } from '../shared/pages/NotFoundPage.jsx';
 
+/**
+ * RootRoute naudojamas visai aplikacijai.
+ *
+ * Čia paliekame tik page view tracking.
+ * Auth check čia NEBETURI būti, nes public puslapiams nereikia
+ * kiekvieną kartą kviesti /api/auth/me.
+ */
 function RootRoute() {
   usePageViewTracking();
 
+  return <Outlet />;
+}
+
+/**
+ * AuthRoute apgaubia tik login/admin dalį.
+ *
+ * Taip /api/auth/me kviečiamas tik ten, kur tikrai reikia:
+ * - /login
+ * - /admin
+ */
+function AuthRoute() {
   return (
     <AuthInitializer>
       <Outlet />
@@ -36,16 +54,21 @@ export const router = createBrowserRouter([
         element: <ProjectDetailsPage />,
       },
       {
-        path: '/login',
-        element: <LoginPage />,
-      },
-      {
-        path: '/admin',
-        element: (
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        ),
+        element: <AuthRoute />,
+        children: [
+          {
+            path: '/login',
+            element: <LoginPage />,
+          },
+          {
+            path: '/admin',
+            element: (
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            ),
+          },
+        ],
       },
       {
         path: '*',
