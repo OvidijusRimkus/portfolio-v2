@@ -1,14 +1,49 @@
 // frontend/src/features/home/components/FeaturedProjects.jsx
 
+import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { FiArrowUpRight, FiGithub } from 'react-icons/fi';
+import { FiArrowUpRight, FiGithub, FiRefreshCw } from 'react-icons/fi';
 
 import { Button } from '../../../shared/components/Button.jsx';
 import { Container } from '../../../shared/components/Container.jsx';
 import { SectionHeading } from '../../../shared/components/SectionHeading.jsx';
-import { featuredProjects } from '../../projects/data/projects.js';
+import { getFeaturedProjects } from '../../projects/services/projectsApi.js';
 
+/**
+ * FeaturedProjects dabar krauna projektus iš backend:
+ * GET /api/projects?featured=true
+ *
+ * Tai reiškia, kad projektų turinys ateina iš PostgreSQL,
+ * o ne iš statinio frontend data failo.
+ */
 export function FeaturedProjects() {
+  const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  async function loadProjects() {
+    try {
+      setIsLoading(true);
+      setError('');
+
+      const projectsData = await getFeaturedProjects();
+
+      setProjects(projectsData);
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message ||
+        'Failed to load projects. Please try again later.';
+
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadProjects();
+  }, []);
+
   return (
     <section id="projects" className="relative border-t border-white/10 py-24 sm:py-32">
       <Container>
@@ -16,19 +51,38 @@ export function FeaturedProjects() {
           <SectionHeading
             eyebrow="Projects"
             title="Selected work built with product thinking."
-            description="These projects are designed to show more than UI. They show routing, API structure, authentication, database design and maintainable full stack architecture."
+            description="These projects are loaded from the backend API and stored in PostgreSQL, showing a real full stack portfolio structure instead of static frontend-only data."
           />
 
-          <Button href="https://github.com/OvidijusRimkus" target="_blank" rel="noreferrer" variant="secondary">
+          <Button
+            href="https://github.com/OvidijusRimkus"
+            target="_blank"
+            rel="noreferrer"
+            variant="secondary"
+          >
             View GitHub
             <FiGithub />
           </Button>
         </div>
 
-        <div className="mt-14 grid gap-6">
-          {featuredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
+        <div className="mt-14">
+          {error && (
+            <div className="mb-6 rounded-2xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-300">
+              {error}
+            </div>
+          )}
+
+          {isLoading ? (
+            <ProjectsLoadingState />
+          ) : projects.length === 0 ? (
+            <ProjectsEmptyState onRetry={loadProjects} />
+          ) : (
+            <div className="grid gap-6">
+              {projects.map((project, index) => (
+                <ProjectCard key={project.id} project={project} index={index} />
+              ))}
+            </div>
+          )}
         </div>
       </Container>
     </section>
@@ -82,36 +136,77 @@ function ProjectCard({ project, index }) {
           </p>
 
           <div className="grid gap-3">
-            {project.metrics.map((metric) => (
+            {project.highlights.map((highlight) => (
               <div
-                key={metric}
+                key={highlight}
                 className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3"
               >
-                <span className="text-sm text-white/65">{metric}</span>
+                <span className="text-sm text-white/65">{highlight}</span>
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.8)]" />
               </div>
             ))}
           </div>
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={project.liveUrl}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-amber-300"
-            >
-              Live preview
-              <FiArrowUpRight />
-            </a>
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-amber-300"
+              >
+                Live preview
+                <FiArrowUpRight />
+              </a>
+            )}
 
-            <a
-              href={project.githubUrl}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-4 py-2.5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.05] hover:text-white"
-            >
-              Source
-              <FiGithub />
-            </a>
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-4 py-2.5 text-sm font-semibold text-white/70 transition hover:bg-white/[0.05] hover:text-white"
+              >
+                Source
+                <FiGithub />
+              </a>
+            )}
           </div>
         </div>
       </div>
     </motion.article>
+  );
+}
+
+function ProjectsLoadingState() {
+  return (
+    <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 text-center shadow-2xl shadow-black/20 backdrop-blur-xl">
+      <div className="mx-auto mb-5 h-10 w-10 animate-spin rounded-full border-2 border-white/10 border-t-amber-300" />
+
+      <p className="text-sm font-semibold text-white">Loading projects...</p>
+      <p className="mt-2 text-sm text-white/45">
+        Fetching featured projects from the API.
+      </p>
+    </div>
+  );
+}
+
+function ProjectsEmptyState({ onRetry }) {
+  return (
+    <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 text-center shadow-2xl shadow-black/20 backdrop-blur-xl">
+      <p className="text-sm font-semibold text-white">No featured projects yet</p>
+
+      <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-white/45">
+        There are no published featured projects in the database yet. Create a
+        project through the API or seed projects later.
+      </p>
+
+      <div className="mt-6 flex justify-center">
+        <Button type="button" variant="secondary" onClick={onRetry}>
+          <FiRefreshCw />
+          Try again
+        </Button>
+      </div>
+    </div>
   );
 }
