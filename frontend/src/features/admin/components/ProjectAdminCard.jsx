@@ -1,14 +1,18 @@
 // frontend/src/features/admin/components/ProjectAdminCard.jsx
 
-import { FiExternalLink, FiGithub } from 'react-icons/fi';
+import { FiEdit3, FiExternalLink, FiGithub, FiTrash2 } from 'react-icons/fi';
+
+import { Button } from '../../../shared/components/Button.jsx';
 
 /**
  * Vieno projekto kortelė admin dashboarde.
  *
- * Kol kas tik rodome informaciją.
- * Kitame etape pridėsime edit / delete veiksmus.
+ * Dabar turi:
+ * - edit;
+ * - delete;
+ * - project info.
  */
-export function ProjectAdminCard({ project }) {
+export function ProjectAdminCard({ project, onEdit, onDelete, isDeleting }) {
   return (
     <article className="rounded-[1.5rem] border border-white/10 bg-black/25 p-5 transition hover:border-amber-400/25 hover:bg-white/[0.04]">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -90,6 +94,27 @@ export function ProjectAdminCard({ project }) {
             Live
           </a>
         )}
+
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() => onEdit(project)}
+          className="px-4 py-2"
+        >
+          <FiEdit3 />
+          Edit
+        </Button>
+
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={() => onDelete(project)}
+          disabled={isDeleting}
+          className="border-red-400/20 px-4 py-2 text-red-300 hover:bg-red-400/10 hover:text-red-200"
+        >
+          <FiTrash2 />
+          {isDeleting ? 'Deleting...' : 'Delete'}
+        </Button>
       </div>
     </article>
   );
