@@ -5,16 +5,23 @@ import { FeaturedProjects } from '../components/FeaturedProjects.jsx';
 import { Hero } from '../components/Hero.jsx';
 import { TechStack } from '../components/TechStack.jsx';
 import { Footer } from '../../../shared/layouts/Footer.jsx';
+import { Header } from '../../../shared/layouts/Header.jsx';
 
 /**
- * HomePage yra puslapio kompozicija.
+ * Public homepage.
  *
- * Šitas failas tik sudeda sekcijas į vieną puslapį.
- * Konkreti UI logika ir markup gyvena atskiruose komponentuose.
+ * Sudeda visas pagrindines portfolio sekcijas:
+ * - Header
+ * - Hero
+ * - Tech stack
+ * - Featured projects
+ * - Contact preview
+ * - Footer
  */
 export function HomePage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050505] text-white">
+    <main className="min-h-screen bg-[#050505] text-white">
+      <Header />
       <Hero />
       <TechStack />
       <FeaturedProjects />
