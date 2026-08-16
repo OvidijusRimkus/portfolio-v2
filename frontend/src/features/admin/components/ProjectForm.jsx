@@ -1,7 +1,7 @@
 // frontend/src/features/admin/components/ProjectForm.jsx
 
-import { useState } from 'react';
-import { FiPlusCircle } from 'react-icons/fi';
+import { useEffect, useState } from 'react';
+import { FiPlusCircle, FiSave } from 'react-icons/fi';
 
 import { Button } from '../../../shared/components/Button.jsx';
 
@@ -45,15 +45,50 @@ function splitList(value) {
     .filter(Boolean);
 }
 
+function formatProjectForForm(project) {
+  if (!project) {
+    return initialFormState;
+  }
+
+  return {
+    title: project.title || '',
+    slug: project.slug || '',
+    type: project.type || '',
+    description: project.description || '',
+    stack: Array.isArray(project.stack) ? project.stack.join(', ') : '',
+    highlights: Array.isArray(project.highlights)
+      ? project.highlights.join(', ')
+      : '',
+    githubUrl: project.githubUrl || '',
+    liveUrl: project.liveUrl || '',
+    imageUrl: project.imageUrl || '',
+    status: project.status || 'In progress',
+    isFeatured: Boolean(project.isFeatured),
+    isPublished: Boolean(project.isPublished),
+    sortOrder: project.sortOrder ?? 10,
+  };
+}
+
 /**
- * ProjectForm leidžia sukurti naują portfolio projektą.
+ * ProjectForm naudojama ir kūrimui, ir redagavimui.
  *
- * Stack ir highlights įvedami per kablelį:
- * React, Express, PostgreSQL
+ * Jeigu perduodamas initialProject — forma veikia edit režimu.
+ * Jeigu nėra — forma kuria naują projektą.
  */
-export function ProjectForm({ onSubmit, isSubmitting }) {
-  const [formData, setFormData] = useState(initialFormState);
+export function ProjectForm({
+  onSubmit,
+  isSubmitting,
+  initialProject = null,
+  submitLabel,
+}) {
+  const [formData, setFormData] = useState(formatProjectForForm(initialProject));
   const [localError, setLocalError] = useState('');
+
+  const isEditMode = Boolean(initialProject);
+
+  useEffect(() => {
+    setFormData(formatProjectForForm(initialProject));
+  }, [initialProject]);
 
   function handleChange(event) {
     const { name, value, type, checked } = event.target;
@@ -63,7 +98,7 @@ export function ProjectForm({ onSubmit, isSubmitting }) {
     setFormData((currentData) => {
       const nextValue = type === 'checkbox' ? checked : value;
 
-      if (name === 'title') {
+      if (name === 'title' && !isEditMode) {
         return {
           ...currentData,
           title: value,
@@ -132,7 +167,9 @@ export function ProjectForm({ onSubmit, isSubmitting }) {
       sortOrder: Number(formData.sortOrder) || 0,
     });
 
-    setFormData(initialFormState);
+    if (!isEditMode) {
+      setFormData(initialFormState);
+    }
   }
 
   return (
@@ -273,8 +310,8 @@ export function ProjectForm({ onSubmit, isSubmitting }) {
       )}
 
       <Button type="submit" disabled={isSubmitting}>
-        <FiPlusCircle />
-        {isSubmitting ? 'Creating...' : 'Create project'}
+        {isEditMode ? <FiSave /> : <FiPlusCircle />}
+        {isSubmitting ? 'Saving...' : submitLabel || (isEditMode ? 'Save changes' : 'Create project')}
       </Button>
     </form>
   );

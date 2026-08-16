@@ -1,32 +1,37 @@
 // frontend/src/features/admin/components/ProjectsPanel.jsx
 
 import { useEffect, useState } from 'react';
-import { FiFolder, FiRefreshCw } from 'react-icons/fi';
+import { FiFolder, FiRefreshCw, FiX } from 'react-icons/fi';
 
 import { Button } from '../../../shared/components/Button.jsx';
 import {
   createAdminProject,
+  deleteAdminProject,
   getAdminProjects,
+  updateAdminProject,
 } from '../services/adminProjectsApi.js';
 import { ProjectAdminCard } from './ProjectAdminCard.jsx';
 import { ProjectForm } from './ProjectForm.jsx';
 
 /**
- * ProjectsPanel leidžia adminui matyti ir sukurti portfolio projektus.
+ * ProjectsPanel leidžia adminui valdyti portfolio projektus.
  *
- * Šiame etape:
+ * Dabar palaiko:
  * - GET projektai;
- * - POST naujas projektas.
- *
- * Kitame etape:
- * - edit;
- * - delete;
- * - publish toggle.
+ * - POST naujas projektas;
+ * - PATCH redagavimas;
+ * - DELETE ištrynimas.
  */
 export function ProjectsPanel() {
   const [projects, setProjects] = useState([]);
+  const [editingProject, setEditingProject] = useState(null);
+  const [projectToDelete, setProjectToDelete] = useState(null);
+
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [deletingProjectId, setDeletingProjectId] = useState(null);
+
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -71,6 +76,75 @@ export function ProjectsPanel() {
     }
   }
 
+  async function handleUpdateProject(payload) {
+    if (!editingProject) {
+      return;
+    }
+
+    try {
+      setIsUpdating(true);
+      setError('');
+      setSuccessMessage('');
+
+      const response = await updateAdminProject(editingProject.id, payload);
+      const updatedProject = response.data.project;
+
+      setProjects((currentProjects) =>
+        currentProjects.map((project) =>
+          project.id === updatedProject.id ? updatedProject : project,
+        ),
+      );
+
+      setEditingProject(null);
+      setSuccessMessage('Project updated successfully.');
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message ||
+        'Failed to update project. Please try again.';
+
+      setError(errorMessage);
+    } finally {
+      setIsUpdating(false);
+    }
+  }
+
+  async function handleDeleteProject(project) {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${project.title}"? This action cannot be undone.`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      setDeletingProjectId(project.id);
+      setError('');
+      setSuccessMessage('');
+
+      await deleteAdminProject(project.id);
+
+      setProjects((currentProjects) =>
+        currentProjects.filter((currentProject) => currentProject.id !== project.id),
+      );
+
+      if (editingProject?.id === project.id) {
+        setEditingProject(null);
+      }
+
+      setProjectToDelete(null);
+      setSuccessMessage('Project deleted successfully.');
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message ||
+        'Failed to delete project. Please try again.';
+
+      setError(errorMessage);
+    } finally {
+      setDeletingProjectId(null);
+    }
+  }
+
   useEffect(() => {
     loadProjects();
   }, []);
@@ -88,7 +162,7 @@ export function ProjectsPanel() {
           </h2>
 
           <p className="mt-2 text-sm text-white/45">
-            Manage projects that appear in the public portfolio.
+            Create, edit and delete projects that appear in the public portfolio.
           </p>
         </div>
 
@@ -116,24 +190,58 @@ export function ProjectsPanel() {
         </div>
       )}
 
-      <div className="mb-8 rounded-[1.5rem] border border-white/10 bg-black/25 p-5">
-        <div className="mb-5 flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-amber-400/20 bg-amber-400/10 text-amber-300">
-            <FiFolder />
-          </span>
+      {editingProject && (
+        <div className="mb-8 rounded-[1.5rem] border border-amber-400/20 bg-amber-400/10 p-5">
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 className="text-base font-semibold text-white">
+                Editing: {editingProject.title}
+              </h3>
+              <p className="mt-1 text-sm text-white/50">
+                Update project fields and save changes.
+              </p>
+            </div>
 
-          <div>
-            <h3 className="text-base font-semibold text-white">
-              Create new project
-            </h3>
-            <p className="mt-1 text-sm text-white/40">
-              This will immediately create a project in PostgreSQL.
-            </p>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setEditingProject(null)}
+              className="px-4 py-2.5"
+            >
+              <FiX />
+              Cancel edit
+            </Button>
           </div>
-        </div>
 
-        <ProjectForm onSubmit={handleCreateProject} isSubmitting={isCreating} />
-      </div>
+          <ProjectForm
+            initialProject={editingProject}
+            onSubmit={handleUpdateProject}
+            isSubmitting={isUpdating}
+            submitLabel="Save changes"
+          />
+        </div>
+      )}
+
+      {!editingProject && (
+        <div className="mb-8 rounded-[1.5rem] border border-white/10 bg-black/25 p-5">
+          <div className="mb-5 flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-amber-400/20 bg-amber-400/10 text-amber-300">
+              <FiFolder />
+            </span>
+
+            <div>
+              <h3 className="text-base font-semibold text-white">
+                Create new project
+              </h3>
+              <p className="mt-1 text-sm text-white/40">
+                This will immediately create a project in PostgreSQL.
+              </p>
+            </div>
+          </div>
+
+          <ProjectForm onSubmit={handleCreateProject} isSubmitting={isCreating} />
+        </div>
+      )}
 
       {isLoading ? (
         <ProjectsLoadingState />
@@ -142,7 +250,13 @@ export function ProjectsPanel() {
       ) : (
         <div className="grid gap-4">
           {projects.map((project) => (
-            <ProjectAdminCard key={project.id} project={project} />
+            <ProjectAdminCard
+              key={project.id}
+              project={project}
+              onEdit={setEditingProject}
+              onDelete={handleDeleteProject}
+              isDeleting={deletingProjectId === project.id}
+            />
           ))}
         </div>
       )}
