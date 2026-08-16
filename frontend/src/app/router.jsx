@@ -9,6 +9,8 @@ import { ProtectedRoute } from '../features/auth/components/ProtectedRoute.jsx';
 import { LoginPage } from '../features/auth/pages/LoginPage.jsx';
 import { HomePage } from '../features/home/pages/HomePage.jsx';
 import { ProjectDetailsPage } from '../features/projects/pages/ProjectDetailsPage.jsx';
+import { AppErrorPage } from '../shared/pages/AppErrorPage.jsx';
+import { NotFoundPage } from '../shared/pages/NotFoundPage.jsx';
 
 function RootRoute() {
   usePageViewTracking();
@@ -23,6 +25,7 @@ function RootRoute() {
 export const router = createBrowserRouter([
   {
     element: <RootRoute />,
+    errorElement: <AppErrorPage />,
     children: [
       {
         path: '/',
@@ -43,6 +46,10 @@ export const router = createBrowserRouter([
             <DashboardPage />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },
