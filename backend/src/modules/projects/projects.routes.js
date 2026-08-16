@@ -6,6 +6,7 @@ import { protect } from '../../middleware/auth.middleware.js';
 import {
   createProjectHandler,
   deleteProjectHandler,
+  getAdminProjectsHandler,
   getProjectBySlugHandler,
   getProjectsHandler,
   updateProjectHandler,
@@ -17,13 +18,24 @@ const router = Router();
  * Public project routes.
  */
 router.get('/', getProjectsHandler);
-router.get('/:slug', getProjectBySlugHandler);
 
 /**
  * Protected admin project routes.
+ *
+ * Svarbu: šitas route turi būti prieš /:slug,
+ * nes kitaip Express palaikytų "admin" kaip slug.
  */
+router.get('/admin/all', protect, getAdminProjectsHandler);
+
 router.post('/', protect, createProjectHandler);
 router.patch('/:id', protect, updateProjectHandler);
 router.delete('/:id', protect, deleteProjectHandler);
+
+/**
+ * Public single project route.
+ *
+ * Šitą laikome po admin routes.
+ */
+router.get('/:slug', getProjectBySlugHandler);
 
 export { router as projectRoutes };

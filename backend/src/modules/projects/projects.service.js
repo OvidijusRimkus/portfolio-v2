@@ -16,6 +16,7 @@ const publicProjectSelect = {
   imageUrl: true,
   status: true,
   isFeatured: true,
+  isPublished: true,
   sortOrder: true,
   createdAt: true,
   updatedAt: true,
@@ -35,6 +36,28 @@ export async function getPublishedProjects({ featured }) {
 
   const projects = await prisma.project.findMany({
     where,
+    orderBy: [
+      {
+        sortOrder: 'asc',
+      },
+      {
+        createdAt: 'desc',
+      },
+    ],
+    select: publicProjectSelect,
+  });
+
+  return projects;
+}
+
+/**
+ * Grąžina visus projektus admin dashboardui.
+ *
+ * Čia specialiai nefiltruojame pagal isPublished,
+ * nes admin turi matyti ir paslėptus projektus.
+ */
+export async function getAllProjectsForAdmin() {
+  const projects = await prisma.project.findMany({
     orderBy: [
       {
         sortOrder: 'asc',
