@@ -1,30 +1,28 @@
 // frontend/src/features/home/components/FeaturedProjects.jsx
 
-import { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
-import { FiArrowUpRight, FiGithub, FiRefreshCw } from 'react-icons/fi';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "motion/react";
+import { FiArrowUpRight, FiGithub, FiRefreshCw } from "react-icons/fi";
 
-import { Button } from '../../../shared/components/Button.jsx';
-import { Container } from '../../../shared/components/Container.jsx';
-import { SectionHeading } from '../../../shared/components/SectionHeading.jsx';
-import { getFeaturedProjects } from '../../projects/services/projectsApi.js';
+import { Button } from "../../../shared/components/Button.jsx";
+import { Container } from "../../../shared/components/Container.jsx";
+import { SectionHeading } from "../../../shared/components/SectionHeading.jsx";
+import { getFeaturedProjects } from "../../projects/services/projectsApi.js";
 
 /**
- * FeaturedProjects dabar krauna projektus iš backend:
+ * FeaturedProjects krauna projektus iš backend:
  * GET /api/projects?featured=true
- *
- * Tai reiškia, kad projektų turinys ateina iš PostgreSQL,
- * o ne iš statinio frontend data failo.
  */
 export function FeaturedProjects() {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   async function loadProjects() {
     try {
       setIsLoading(true);
-      setError('');
+      setError("");
 
       const projectsData = await getFeaturedProjects();
 
@@ -32,7 +30,7 @@ export function FeaturedProjects() {
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||
-        'Failed to load projects. Please try again later.';
+        "Failed to load projects. Please try again later.";
 
       setError(errorMessage);
     } finally {
@@ -45,7 +43,10 @@ export function FeaturedProjects() {
   }, []);
 
   return (
-    <section id="projects" className="relative border-t border-white/10 py-24 sm:py-32">
+    <section
+      id="projects"
+      className="relative border-t border-white/10 py-24 sm:py-32"
+    >
       <Container>
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
@@ -148,17 +149,13 @@ function ProjectCard({ project, index }) {
           </div>
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-black transition hover:bg-amber-300"
-              >
-                Live preview
-                <FiArrowUpRight />
-              </a>
-            )}
+            <Link
+              to={`/projects/${project.slug}`}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold !text-black transition hover:bg-amber-300 hover:!text-black"
+            >
+              View details
+              <FiArrowUpRight />
+            </Link>
 
             {project.githubUrl && (
               <a
@@ -194,7 +191,9 @@ function ProjectsLoadingState() {
 function ProjectsEmptyState({ onRetry }) {
   return (
     <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 text-center shadow-2xl shadow-black/20 backdrop-blur-xl">
-      <p className="text-sm font-semibold text-white">No featured projects yet</p>
+      <p className="text-sm font-semibold text-white">
+        No featured projects yet
+      </p>
 
       <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-white/45">
         There are no published featured projects in the database yet. Create a

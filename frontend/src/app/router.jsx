@@ -8,14 +8,8 @@ import { AuthInitializer } from '../features/auth/components/AuthInitializer.jsx
 import { ProtectedRoute } from '../features/auth/components/ProtectedRoute.jsx';
 import { LoginPage } from '../features/auth/pages/LoginPage.jsx';
 import { HomePage } from '../features/home/pages/HomePage.jsx';
+import { ProjectDetailsPage } from '../features/projects/pages/ProjectDetailsPage.jsx';
 
-/**
- * RootRoute leidžia turėti globalią logiką visiems routes.
- *
- * Čia prijungiame:
- * - AuthInitializer
- * - page view analytics tracking
- */
 function RootRoute() {
   usePageViewTracking();
 
@@ -26,9 +20,6 @@ function RootRoute() {
   );
 }
 
-/**
- * Aplikacijos routing konfigūracija.
- */
 export const router = createBrowserRouter([
   {
     element: <RootRoute />,
@@ -36,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: '/',
         element: <HomePage />,
+      },
+      {
+        path: '/projects/:slug',
+        element: <ProjectDetailsPage />,
       },
       {
         path: '/login',

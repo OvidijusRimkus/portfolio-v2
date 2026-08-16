@@ -5,8 +5,8 @@ import { apiClient } from '../../../shared/api/axios.js';
 /**
  * Projects API service.
  *
- * Public portfolio puslapis naudos šitą service,
- * kad projektai būtų kraunami iš backend, o ne iš statinio data failo.
+ * Public portfolio puslapiai naudoja šitą service,
+ * kad projektai būtų kraunami iš backend.
  */
 
 export async function getProjects(params = {}) {
@@ -23,4 +23,10 @@ export async function getFeaturedProjects() {
   });
 
   return response.data.projects;
+}
+
+export async function getProjectBySlug(slug) {
+  const response = await apiClient.get(`/projects/${slug}`);
+
+  return response.data.data.project;
 }
