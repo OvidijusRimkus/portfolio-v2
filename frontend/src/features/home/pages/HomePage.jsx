@@ -7,6 +7,7 @@ import { Hero } from '../components/Hero.jsx';
 import { TechStack } from '../components/TechStack.jsx';
 import { Footer } from '../../../shared/layouts/Footer.jsx';
 import { Header } from '../../../shared/layouts/Header.jsx';
+import { ProcessSection } from '../components/ProcessSection.jsx';
 
 /**
  * Public homepage.
@@ -26,6 +27,7 @@ export function HomePage() {
       <Header />
       <Hero />
       <AboutSection />
+      <ProcessSection />
       <TechStack />
       <FeaturedProjects />
       <ContactPreview />
