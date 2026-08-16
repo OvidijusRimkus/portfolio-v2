@@ -3,8 +3,6 @@
 import { motion } from 'motion/react';
 import {
   FiAward,
-  FiCpu,
-  FiDatabase,
   FiLayers,
   FiSettings,
   FiTool,
@@ -56,11 +54,15 @@ const stats = [
 /**
  * AboutSection pristato portfolio savininką kaip programuotoją.
  *
- * Id "about" naudojamas header navigacijai ateityje.
+ * scroll-mt-28 reikalingas dėl fixed headerio,
+ * kad paspaudus /#about sekcijos neuždengtų navigacija.
  */
 export function AboutSection() {
   return (
-    <section id="about" className="relative border-t border-white/10 py-24 sm:py-32">
+    <section
+      id="about"
+      className="relative scroll-mt-28 border-t border-white/10 py-24 sm:py-32"
+    >
       <div className="absolute left-0 top-1/2 h-[24rem] w-[24rem] -translate-y-1/2 rounded-full bg-amber-400/5 blur-3xl" />
 
       <Container>
