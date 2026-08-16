@@ -7,13 +7,15 @@ import { Container } from '../../../shared/components/Container.jsx';
 import { useAuthStore } from '../../auth/store/authStore.js';
 import { AnalyticsSummaryCards } from '../components/AnalyticsSummaryCards.jsx';
 import { ContactMessagesPanel } from '../components/ContactMessagesPanel.jsx';
+import { ProjectsPanel } from '../components/ProjectsPanel.jsx';
 
 /**
  * Admin Dashboard puslapis.
  *
- * Dabar dashboard rodo:
- * - realią analytics santrauką;
- * - realias kontaktų žinutes iš PostgreSQL.
+ * Dashboard dabar rodo:
+ * - analytics santrauką;
+ * - kontaktų žinutes;
+ * - projektų valdymo panelę.
  */
 export function DashboardPage() {
   const admin = useAuthStore((state) => state.admin);
@@ -39,7 +41,7 @@ export function DashboardPage() {
               </h1>
 
               <p className="mt-2 text-sm text-white/45">
-                Portfolio analytics, contact messages and admin tools.
+                Portfolio analytics, contact messages and project management.
               </p>
             </div>
 
@@ -54,6 +56,10 @@ export function DashboardPage() {
       <section className="py-10">
         <Container>
           <AnalyticsSummaryCards />
+
+          <div className="mt-8">
+            <ProjectsPanel />
+          </div>
 
           <div className="mt-8">
             <ContactMessagesPanel />
