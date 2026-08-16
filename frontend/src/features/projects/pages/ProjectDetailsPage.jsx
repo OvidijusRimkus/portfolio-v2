@@ -15,6 +15,7 @@ import {
 import { Button } from '../../../shared/components/Button.jsx';
 import { Container } from '../../../shared/components/Container.jsx';
 import { Footer } from '../../../shared/layouts/Footer.jsx';
+import { Header } from '../../../shared/layouts/Header.jsx';
 import { getProjectBySlug } from '../services/projectsApi.js';
 
 /**
@@ -22,9 +23,6 @@ import { getProjectBySlug } from '../services/projectsApi.js';
  *
  * Route:
  * /projects/:slug
- *
- * Duomenys kraunami iš:
- * GET /api/projects/:slug
  */
 export function ProjectDetailsPage() {
   const { slug } = useParams();
@@ -66,7 +64,9 @@ export function ProjectDetailsPage() {
 
   return (
     <main className="min-h-screen bg-[#050505] text-white">
-      <section className="relative overflow-hidden border-b border-white/10 py-10">
+      <Header />
+
+      <section className="relative overflow-hidden border-b border-white/10 pb-10 pt-32">
         <div className="absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-amber-400/10 blur-3xl" />
 
         <Container>
@@ -238,8 +238,10 @@ function InfoRow({ icon, label, value }) {
 function ProjectDetailsLoading() {
   return (
     <main className="min-h-screen bg-[#050505] py-20 text-white">
+      <Header />
+
       <Container>
-        <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-10 text-center shadow-2xl shadow-black/20 backdrop-blur-xl">
+        <div className="mt-20 rounded-[2rem] border border-white/10 bg-white/[0.04] p-10 text-center shadow-2xl shadow-black/20 backdrop-blur-xl">
           <div className="mx-auto mb-5 h-10 w-10 animate-spin rounded-full border-2 border-white/10 border-t-amber-300" />
 
           <p className="text-sm font-semibold text-white">Loading project...</p>
@@ -255,8 +257,10 @@ function ProjectDetailsLoading() {
 function ProjectDetailsError({ message }) {
   return (
     <main className="min-h-screen bg-[#050505] py-20 text-white">
+      <Header />
+
       <Container>
-        <div className="rounded-[2rem] border border-red-400/20 bg-red-400/10 p-10 text-center shadow-2xl shadow-black/20 backdrop-blur-xl">
+        <div className="mt-20 rounded-[2rem] border border-red-400/20 bg-red-400/10 p-10 text-center shadow-2xl shadow-black/20 backdrop-blur-xl">
           <p className="text-lg font-semibold text-red-200">Project not found</p>
 
           <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-red-100/70">
