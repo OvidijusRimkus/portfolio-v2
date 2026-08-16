@@ -4,6 +4,7 @@ import { ContactPreview } from '../../contact/components/ContactPreview.jsx';
 import { AboutSection } from '../components/AboutSection.jsx';
 import { FeaturedProjects } from '../components/FeaturedProjects.jsx';
 import { Hero } from '../components/Hero.jsx';
+import { ProcessSection } from '../components/ProcessSection.jsx';
 import { TechStack } from '../components/TechStack.jsx';
 import { Footer } from '../../../shared/layouts/Footer.jsx';
 import { Header } from '../../../shared/layouts/Header.jsx';
@@ -15,6 +16,7 @@ import { Header } from '../../../shared/layouts/Header.jsx';
  * - Header
  * - Hero
  * - About
+ * - Process
  * - Tech stack
  * - Featured projects
  * - Contact preview
@@ -26,6 +28,7 @@ export function HomePage() {
       <Header />
       <Hero />
       <AboutSection />
+      <ProcessSection />
       <TechStack />
       <FeaturedProjects />
       <ContactPreview />
