@@ -1,10 +1,12 @@
 // frontend/src/features/admin/pages/DashboardPage.jsx
 
+import { useState } from 'react';
 import { FiLogOut } from 'react-icons/fi';
 
 import { Button } from '../../../shared/components/Button.jsx';
 import { Container } from '../../../shared/components/Container.jsx';
 import { useAuthStore } from '../../auth/store/authStore.js';
+import { AdminDashboardTabs } from '../components/AdminDashboardTabs.jsx';
 import { AnalyticsSummaryCards } from '../components/AnalyticsSummaryCards.jsx';
 import { ContactMessagesPanel } from '../components/ContactMessagesPanel.jsx';
 import { ProjectsPanel } from '../components/ProjectsPanel.jsx';
@@ -12,12 +14,14 @@ import { ProjectsPanel } from '../components/ProjectsPanel.jsx';
 /**
  * Admin Dashboard puslapis.
  *
- * Dashboard dabar rodo:
- * - analytics santrauką;
- * - kontaktų žinutes;
- * - projektų valdymo panelę.
+ * Dashboard dabar turi tabus:
+ * - Overview;
+ * - Projects;
+ * - Messages.
  */
 export function DashboardPage() {
+  const [activeTab, setActiveTab] = useState('overview');
+
   const admin = useAuthStore((state) => state.admin);
   const logout = useAuthStore((state) => state.logout);
 
@@ -41,7 +45,7 @@ export function DashboardPage() {
               </h1>
 
               <p className="mt-2 text-sm text-white/45">
-                Portfolio analytics, contact messages and project management.
+                Portfolio analytics, project management and contact messages.
               </p>
             </div>
 
@@ -55,15 +59,13 @@ export function DashboardPage() {
 
       <section className="py-10">
         <Container>
-          <AnalyticsSummaryCards />
+          <AdminDashboardTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-          <div className="mt-8">
-            <ProjectsPanel />
-          </div>
+          {activeTab === 'overview' && <AnalyticsSummaryCards />}
 
-          <div className="mt-8">
-            <ContactMessagesPanel />
-          </div>
+          {activeTab === 'projects' && <ProjectsPanel />}
+
+          {activeTab === 'messages' && <ContactMessagesPanel />}
         </Container>
       </section>
     </main>
