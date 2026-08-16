@@ -5,6 +5,7 @@ import { catchAsync } from '../../utils/catchAsync.js';
 import {
   createProject,
   deleteProject,
+  getAllProjectsForAdmin,
   getPublishedProjectBySlug,
   getPublishedProjects,
   updateProject,
@@ -30,6 +31,23 @@ export const getProjectsHandler = catchAsync(async (req, res) => {
   }
 
   const projects = await getPublishedProjects(result.data);
+
+  res.status(200).json({
+    success: true,
+    data: {
+      projects,
+    },
+  });
+});
+
+/**
+ * GET /api/projects/admin/all
+ *
+ * Protected endpoint admin dashboardui.
+ * Grąžina visus projektus, įskaitant hidden.
+ */
+export const getAdminProjectsHandler = catchAsync(async (req, res) => {
+  const projects = await getAllProjectsForAdmin();
 
   res.status(200).json({
     success: true,

@@ -5,11 +5,12 @@ import { apiClient } from '../../../shared/api/axios.js';
 /**
  * Admin Projects API service.
  *
- * Šitas service apgaubia projektų backend endpointus.
+ * Admin projektų sąrašas turi naudoti protected endpointą,
+ * kad matytų ir paslėptus projektus.
  */
 
 export async function getAdminProjects() {
-  const response = await apiClient.get('/projects');
+  const response = await apiClient.get('/projects/admin/all');
 
   return response.data;
 }
