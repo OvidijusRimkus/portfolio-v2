@@ -31,7 +31,7 @@ export function ProjectDetailsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
+   useEffect(() => {
     async function loadProject() {
       try {
         setIsLoading(true);
@@ -54,12 +54,20 @@ export function ProjectDetailsPage() {
     loadProject();
   }, [slug]);
 
+  useEffect(() => {
+    if (!project) {
+      return;
+    }
+
+    document.title = `${project.title} | Ovidijus Rimkus Portfolio`;
+
+    return () => {
+      document.title = 'Ovidijus Rimkus | Full Stack Developer Portfolio';
+    };
+  }, [project]);
+
   if (isLoading) {
     return <ProjectDetailsLoading />;
-  }
-
-  if (error || !project) {
-    return <ProjectDetailsError message={error} />;
   }
 
   return (
