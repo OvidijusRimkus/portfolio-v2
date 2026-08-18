@@ -16,6 +16,10 @@ const navLinks = [
     href: '/#about',
   },
   {
+    label: 'Process',
+    href: '/#process',
+  },
+  {
     label: 'Projects',
     href: '/#projects',
   },

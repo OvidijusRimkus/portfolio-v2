@@ -70,7 +70,10 @@ const workflowItems = [
  */
 export function ProcessSection() {
   return (
-    <section id="process" className="relative border-t border-white/10 py-24 sm:py-32">
+   <section
+  id="process"
+  className="relative scroll-mt-28 border-t border-white/10 py-24 sm:py-32"
+>
       <div className="absolute right-0 top-1/2 h-[26rem] w-[26rem] -translate-y-1/2 rounded-full bg-amber-400/5 blur-3xl" />
 
       <Container>
