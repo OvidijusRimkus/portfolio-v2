@@ -10,8 +10,8 @@ import { ContactForm } from './ContactForm.jsx';
 const contactLinks = [
   {
     label: 'Email',
-    value: 'your.email@example.com',
-    href: 'mailto:your.email@example.com',
+    value: 'ovd.rmk@gmail.com',
+    href: 'mailto:ovd.rmk@gmail.com',
     icon: FiMail,
   },
   {
@@ -23,7 +23,7 @@ const contactLinks = [
   {
     label: 'LinkedIn',
     value: 'LinkedIn profile',
-    href: '#',
+    href: 'https://www.linkedin.com/in/ovidijus-rimkus',
     icon: FiLinkedin,
   },
 ];

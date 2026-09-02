@@ -1,31 +1,31 @@
 // frontend/src/shared/layouts/Header.jsx
 
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FiGithub, FiGrid, FiMenu, FiX } from 'react-icons/fi';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { FiGithub, FiGrid, FiMenu, FiX } from "react-icons/fi";
 
-import { Container } from '../components/Container.jsx';
+import { Container } from "../components/Container.jsx";
 
 const navLinks = [
   {
-    label: 'Home',
-    href: '/',
+    label: "Home",
+    href: "/",
   },
   {
-    label: 'About',
-    href: '/#about',
+    label: "About",
+    href: "/#about",
   },
   {
-    label: 'Process',
-    href: '/#process',
+    label: "Process",
+    href: "/#process",
   },
   {
-    label: 'Projects',
-    href: '/#projects',
+    label: "Projects",
+    href: "/#projects",
   },
   {
-    label: 'Contact',
-    href: '/#contact',
+    label: "Contact",
+    href: "/#contact",
   },
 ];
 
@@ -82,13 +82,6 @@ export function Header() {
               <FiGithub />
               GitHub
             </a>
-
-            <Link
-              to="/login"
-              className="rounded-full bg-white px-4 py-2 text-sm font-semibold !text-black transition hover:bg-amber-300 hover:!text-black"
-            >
-              Admin
-            </Link>
           </nav>
 
           <button
@@ -124,14 +117,6 @@ export function Header() {
                 GitHub
                 <FiGithub />
               </a>
-
-              <Link
-                to="/login"
-                onClick={closeMenu}
-                className="inline-flex items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-semibold !text-black transition hover:bg-amber-300 hover:!text-black"
-              >
-                Admin
-              </Link>
             </nav>
           </div>
         )}

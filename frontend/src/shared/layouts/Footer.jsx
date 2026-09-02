@@ -12,12 +12,12 @@ const footerLinks = [
   },
   {
     label: 'LinkedIn',
-    href: '#',
+    href: 'https://www.linkedin.com/in/ovidijus-rimkus',
     icon: FiLinkedin,
   },
   {
     label: 'Email',
-    href: 'mailto:your.email@example.com',
+    href: 'mailto:ovd.rmk@gmail.com',
     icon: FiMail,
   },
 ];
