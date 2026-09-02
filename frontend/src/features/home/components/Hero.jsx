@@ -1,7 +1,7 @@
 // frontend/src/features/home/components/Hero.jsx
 
 import { motion } from 'motion/react';
-import { FiArrowUpRight, FiDownload, FiGithub, FiMail } from 'react-icons/fi';
+import { FiArrowUpRight, FiDownload, FiMail } from 'react-icons/fi';
 
 import { trackAnalyticsEvent } from '../../analytics/services/analyticsApi.js';
 import { Button } from '../../../shared/components/Button.jsx';
@@ -144,15 +144,7 @@ function HeroCodeCard() {
         </div>
       </div>
 
-      <a
-        href="https://github.com/OvidijusRimkus"
-        target="_blank"
-        rel="noreferrer"
-        className="mt-5 inline-flex items-center gap-2 text-sm text-white/50 transition hover:text-white"
-      >
-        <FiGithub />
-        GitHub profile
-      </a>
+     
     </motion.div>
   );
 }
