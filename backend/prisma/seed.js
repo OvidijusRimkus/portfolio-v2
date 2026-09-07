@@ -49,7 +49,7 @@ const projects = [
     'Analytics',
     'Swagger API Docs',
   ],
-  githubUrl: null,
+  githubUrl: 'https://github.com/AugustinaCodes/pavasario-projektas-js.git',
   liveUrl: null,
   imageUrl: '/projects/fitbook.png',
   status: 'Completed',
@@ -73,6 +73,34 @@ const projects = [
     isPublished: true,
     sortOrder: 3,
   },
+  {
+  title: 'PayAPI Multi-page Website',
+  slug: 'payapi-website',
+  type: 'Frontend Multi-page Website',
+  description:
+    'A responsive team-built multi-page marketing website built with HTML, CSS and JavaScript. The project includes Home, About, Pricing and Contact pages, responsive layouts, mobile navigation, reusable visual assets and a contact form interface.',
+  stack: [
+    'HTML',
+    'CSS',
+    'JavaScript',
+    'Responsive Design',
+    'Multi-page Website',
+  ],
+  highlights: [
+    'Responsive Layout',
+    'Mobile Navigation',
+    'Multi-page Structure',
+    'Pricing Page',
+    'Static Website',
+  ],
+  githubUrl: 'https://github.com/AugustinaCodes/techin_null_team',
+  liveUrl: null,
+  imageUrl: '/projects/payapi-website.png',
+  status: 'Completed',
+  isFeatured: true,
+  isPublished: true,
+  sortOrder: 4,
+},
 ];
 
 /**
