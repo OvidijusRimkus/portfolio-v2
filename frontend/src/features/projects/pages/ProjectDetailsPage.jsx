@@ -9,6 +9,7 @@ import {
   FiCalendar,
   FiCode,
   FiGithub,
+  FiImage,
   FiLayers,
 } from 'react-icons/fi';
 
@@ -165,6 +166,8 @@ export function ProjectDetailsPage() {
         </Container>
       </section>
 
+      <ProjectPreviewSection project={project} />
+
       <section className="py-20">
         <Container>
           <div className="grid gap-8 lg:grid-cols-[0.75fr_1fr]">
@@ -220,6 +223,38 @@ export function ProjectDetailsPage() {
 
       <Footer />
     </main>
+  );
+}
+
+function ProjectPreviewSection({ project }) {
+  return (
+    <section className="border-b border-white/10 py-16">
+      <Container>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.55 }}
+          className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] p-3 shadow-2xl shadow-black/30 backdrop-blur-xl"
+        >
+          {project.imageUrl ? (
+            <img
+              src={project.imageUrl}
+              alt={`${project.title} project preview`}
+              className="max-h-[720px] w-full rounded-[1.5rem] object-cover object-top"
+              loading="lazy"
+            />
+          ) : (
+            <div className="flex min-h-[320px] items-center justify-center rounded-[1.5rem] border border-white/10 bg-black/30 text-white/35">
+              <div className="text-center">
+                <FiImage className="mx-auto mb-3 text-4xl" />
+                <p className="text-sm font-medium">Project preview coming soon</p>
+              </div>
+            </div>
+          )}
+        </motion.div>
+      </Container>
+    </section>
   );
 }
 
