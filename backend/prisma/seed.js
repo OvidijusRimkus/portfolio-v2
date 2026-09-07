@@ -10,22 +10,42 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 const projects = [
-  {
-    title: 'Portfolio v2',
-    slug: 'portfolio-v2',
-    type: 'Production Portfolio Application',
-    description:
-      'A premium full stack developer portfolio with analytics, contact forms, CV tracking, project API and admin dashboard.',
-    stack: ['React', 'Vite', 'Tailwind CSS', 'Express', 'PostgreSQL', 'Prisma', 'Docker'],
-    highlights: ['Analytics', 'Admin Dashboard', 'JWT Auth', 'Contact Messages'],
-    githubUrl: 'https://github.com/OvidijusRimkus/portfolio-v2',
-    liveUrl: null,
-    imageUrl: null,
-    status: 'In progress',
-    isFeatured: true,
-    isPublished: true,
-    sortOrder: 1,
-  },
+ {
+  title: 'Portfolio v2',
+  slug: 'portfolio-v2',
+  type: 'Full Stack Developer Portfolio',
+  description:
+    'A premium full stack developer portfolio application with a public homepage, project details pages, contact form, analytics tracking, JWT authentication and a protected admin dashboard for managing projects and contact messages.',
+  stack: [
+    'React',
+    'Vite',
+    'Tailwind CSS',
+    'React Router',
+    'Zustand',
+    'Axios',
+    'Express',
+    'PostgreSQL',
+    'Prisma',
+    'JWT',
+    'Docker',
+  ],
+  highlights: [
+    'Public Portfolio',
+    'Project Details Pages',
+    'Admin Dashboard',
+    'Project CRUD',
+    'Contact Messages',
+    'Analytics Tracking',
+    'JWT Auth',
+  ],
+  githubUrl: 'https://github.com/OvidijusRimkus/portfolio-v2',
+  liveUrl: null,
+  imageUrl: '/projects/portfolio-v2.png',
+  status: 'In progress',
+  isFeatured: true,
+  isPublished: true,
+  sortOrder: 1,
+},
   {
   title: 'FitBook',
   slug: 'fitbook',
