@@ -1,28 +1,30 @@
 // frontend/src/features/home/components/FeaturedProjects.jsx
 
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { motion } from "motion/react";
-import { FiArrowUpRight, FiGithub, FiRefreshCw } from "react-icons/fi";
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
+import { FiArrowUpRight, FiGithub, FiImage, FiRefreshCw } from 'react-icons/fi';
 
-import { Button } from "../../../shared/components/Button.jsx";
-import { Container } from "../../../shared/components/Container.jsx";
-import { SectionHeading } from "../../../shared/components/SectionHeading.jsx";
-import { getFeaturedProjects } from "../../projects/services/projectsApi.js";
+import { Button } from '../../../shared/components/Button.jsx';
+import { Container } from '../../../shared/components/Container.jsx';
+import { SectionHeading } from '../../../shared/components/SectionHeading.jsx';
+import { getFeaturedProjects } from '../../projects/services/projectsApi.js';
 
 /**
  * FeaturedProjects krauna projektus iš backend:
  * GET /api/projects?featured=true
+ *
+ * Jei projektas turi imageUrl, rodome projekto screenshotą.
  */
 export function FeaturedProjects() {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   async function loadProjects() {
     try {
       setIsLoading(true);
-      setError("");
+      setError('');
 
       const projectsData = await getFeaturedProjects();
 
@@ -30,7 +32,7 @@ export function FeaturedProjects() {
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||
-        "Failed to load projects. Please try again later.";
+        'Failed to load projects. Please try again later.';
 
       setError(errorMessage);
     } finally {
@@ -45,7 +47,7 @@ export function FeaturedProjects() {
   return (
     <section
       id="projects"
-      className="relative border-t border-white/10 py-24 sm:py-32"
+      className="relative scroll-mt-28 border-t border-white/10 py-24 sm:py-32"
     >
       <Container>
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
@@ -101,8 +103,29 @@ function ProjectCard({ project, index }) {
     >
       <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-amber-400/10 blur-3xl transition group-hover:bg-amber-400/20" />
 
-      <div className="relative grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-end">
-        <div>
+      <div className="relative grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-stretch">
+        <div className="flex flex-col">
+          {project.imageUrl ? (
+            <Link
+              to={`/projects/${project.slug}`}
+              className="mb-7 block overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/30"
+            >
+              <img
+                src={project.imageUrl}
+                alt={`${project.title} project screenshot`}
+                className="h-64 w-full object-cover object-top opacity-90 transition duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
+                loading="lazy"
+              />
+            </Link>
+          ) : (
+            <div className="mb-7 flex h-64 items-center justify-center rounded-[1.5rem] border border-white/10 bg-black/30 text-white/30">
+              <div className="text-center">
+                <FiImage className="mx-auto mb-3 text-3xl" />
+                <p className="text-sm">Project preview coming soon</p>
+              </div>
+            </div>
+          )}
+
           <div className="mb-5 flex flex-wrap items-center gap-3">
             <span className="rounded-full border border-amber-400/20 bg-amber-400/10 px-3 py-1 text-xs font-semibold text-amber-300">
               {project.status}
@@ -131,21 +154,23 @@ function ProjectCard({ project, index }) {
           </div>
         </div>
 
-        <div className="rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/35">
-            Highlights
-          </p>
+        <div className="flex flex-col justify-between rounded-[1.5rem] border border-white/10 bg-black/30 p-5">
+          <div>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/35">
+              Highlights
+            </p>
 
-          <div className="grid gap-3">
-            {project.highlights.map((highlight) => (
-              <div
-                key={highlight}
-                className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3"
-              >
-                <span className="text-sm text-white/65">{highlight}</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.8)]" />
-              </div>
-            ))}
+            <div className="grid gap-3">
+              {project.highlights.map((highlight) => (
+                <div
+                  key={highlight}
+                  className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3"
+                >
+                  <span className="text-sm text-white/65">{highlight}</span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-300 shadow-[0_0_18px_rgba(251,191,36,0.8)]" />
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
