@@ -13,9 +13,7 @@ datasource db {
  * Admin modelis.
  *
  * Registracijos nebus.
- * Admin vartotoją vėliau sukursime per seed failą iš .env:
- * - ADMIN_USERNAME
- * - ADMIN_PASSWORD
+ * Admin vartotoją sukuriame per seed iš .env.
  */
 model Admin {
   id           String   @id @default(uuid())
@@ -25,4 +23,72 @@ model Admin {
   updatedAt    DateTime @updatedAt
 
   @@map("admins")
+}
+
+/**
+ * ContactMessage modelis saugo žinutes iš portfolio kontaktų formos.
+ */
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contact_messages")
+}
+
+/**
+ * AnalyticsEvent modelis saugo portfolio įvykius:
+ * - page_view
+ * - cv_download
+ * - contact_submit
+ */
+model AnalyticsEvent {
+  id        String   @id @default(uuid())
+  type      String
+  path      String?
+  metadata  Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([type])
+  @@index([createdAt])
+  @@map("analytics_events")
+}
+
+/**
+ * Project modelis saugo portfolio projektus.
+ *
+ * Vėliau Admin Dashboard galės:
+ * - sukurti projektą;
+ * - redaguoti projektą;
+ * - paslėpti / publikuoti projektą;
+ * - keisti featured statusą.
+ */
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  type        String
+  description String
+  stack       String[]
+  highlights  String[]
+  githubUrl   String?
+  liveUrl     String?
+  imageUrl    String?
+  status      String   @default("In progress")
+  isFeatured  Boolean  @default(false)
+  isPublished Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isFeatured])
+  @@index([isPublished])
+  @@map("projects")
 }

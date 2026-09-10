@@ -1,4 +1,3 @@
-
 // backend/src/app.js
 
 import express from 'express';
@@ -9,20 +8,30 @@ import rateLimit from 'express-rate-limit';
 
 import { env } from './config/env.js';
 import { prisma } from './db/prisma.js';
+import { catchAsync } from './utils/catchAsync.js';
+import { notFoundMiddleware } from './middleware/notFound.middleware.js';
+import { errorMiddleware } from './middleware/error.middleware.js';
+import { adminRoutes } from './modules/admin/admin.routes.js';
+import { analyticsRoutes } from './modules/analytics/analytics.routes.js';
+import { authRoutes } from './modules/auth/auth.routes.js';
+import { contactRoutes } from './modules/contact/contact.routes.js';
+import { projectRoutes } from './modules/projects/projects.routes.js';
 
 const app = express();
 
 /**
- * Helmet prideda saugumo HTTP headerius.
- * Tai paprasta, bet profesionali production-style apsauga.
+ * Required when the API runs behind a platform proxy
+ * such as Render, Railway or similar hosting providers.
+ *
+ * It helps Express correctly understand secure HTTPS requests
+ * and client IP addresses behind the proxy.
  */
+if (env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 app.use(helmet());
 
-/**
- * CORS leidžia frontend aplikacijai bendrauti su backend.
- *
- * credentials: true reikalinga, nes JWT saugosime HttpOnly cookie.
- */
 app.use(
   cors({
     origin: env.CLIENT_URL,
@@ -30,14 +39,10 @@ app.use(
   }),
 );
 
-/**
- * Bendras API rate limit.
- * Vėliau auth route'ams pridėsime atskirą griežtesnį limitą.
- */
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    limit: 300,
+    limit: env.NODE_ENV === 'production' ? 300 : 2000,
     standardHeaders: 'draft-8',
     legacyHeaders: false,
   }),
@@ -46,10 +51,6 @@ app.use(
 app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 
-/**
- * API root endpointas.
- * Greitam testui, ar backend serveris veikia.
- */
 app.get('/api', (req, res) => {
   res.status(200).json({
     success: true,
@@ -57,14 +58,9 @@ app.get('/api', (req, res) => {
   });
 });
 
-/**
- * Health check endpointas.
- *
- * Čia tikriname ne tik Express,
- * bet ir realų ryšį su PostgreSQL per Prisma.
- */
-app.get('/api/health', async (req, res, next) => {
-  try {
+app.get(
+  '/api/health',
+  catchAsync(async (req, res) => {
     await prisma.$queryRaw`SELECT 1`;
 
     res.status(200).json({
@@ -75,33 +71,16 @@ app.get('/api/health', async (req, res, next) => {
         database: 'up',
       },
     });
-  } catch (error) {
-    next(error);
-  }
-});
+  }),
+);
 
-/**
- * Laikinas 404 handleris.
- * Vėliau iškelsime į atskirą middleware failą.
- */
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route not found: ${req.originalUrl}`,
-  });
-});
+app.use('/api/auth', authRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/projects', projectRoutes);
 
-/**
- * Laikinas global error handleris.
- * Vėliau iškelsime į atskirą middleware failą.
- */
-app.use((error, req, res, next) => {
-  console.error(error);
-
-  res.status(500).json({
-    success: false,
-    message: 'Internal server error',
-  });
-});
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 export default app;
