@@ -19,6 +19,17 @@ import { projectRoutes } from './modules/projects/projects.routes.js';
 
 const app = express();
 
+/**
+ * Required when the API runs behind a platform proxy
+ * such as Render, Railway or similar hosting providers.
+ *
+ * It helps Express correctly understand secure HTTPS requests
+ * and client IP addresses behind the proxy.
+ */
+if (env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 app.use(helmet());
 
 app.use(
@@ -31,7 +42,7 @@ app.use(
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
-    limit: 300,
+    limit: env.NODE_ENV === 'production' ? 300 : 2000,
     standardHeaders: 'draft-8',
     legacyHeaders: false,
   }),
