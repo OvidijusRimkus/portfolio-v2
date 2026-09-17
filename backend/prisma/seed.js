@@ -94,76 +94,86 @@ const projects = [
     ],
   },
   {
-    title: 'FitBook',
-    slug: 'fitbook',
-    type: 'Full Stack Booking Platform',
-    description:
-      'A full stack group training booking application where users can register, log in, browse available training sessions, book sessions, view their bookings and cancel reservations. The admin area allows managing bookings, updating booking statuses and viewing analytics data.',
-    stack: [
-      'React',
-      'Vite',
-      'Tailwind CSS',
-      'Zustand',
-      'Express',
-      'PostgreSQL',
-      'JWT',
-      'Docker',
-    ],
-    highlights: [
-      'User Authentication',
-      'Booking Management',
-      'Admin Dashboard',
-      'Analytics',
-      'Swagger API Docs',
-    ],
-    githubUrl: 'https://github.com/AugustinaCodes/pavasario-projektas-js.git',
-    liveUrl: null,
-    imageUrl: '/projects/fitbook.png',
-    status: 'Completed',
-    isFeatured: true,
-    isPublished: true,
-    sortOrder: 2,
+  title: 'FitBook',
+  slug: 'fitbook',
+  type: 'Full Stack Booking Platform',
+  description:
+    'A full stack group training booking application built as a team project using Scrum-style workflow, Jira task management, testing feedback and bug fixing. Users can register, log in, browse training sessions, book sessions, manage their bookings and use an admin area for booking status management.',
+  stack: [
+    'React',
+    'Vite',
+    'Tailwind CSS',
+    'Zustand',
+    'Express',
+    'PostgreSQL',
+    'JWT',
+    'Docker',
+    'Jira',
+    'Scrum',
+  ],
+  highlights: [
+    'Team Project',
+    'Scrum Workflow',
+    'Jira Task Management',
+    'User Authentication',
+    'Booking Management',
+    'Admin Dashboard',
+    'Testing Feedback',
+    'Bug Fixing',
+    'Swagger API Docs',
+  ],
+  githubUrl: 'https://github.com/AugustinaCodes/pavasario-projektas-js.git',
+  liveUrl: null,
+  imageUrl: '/projects/fitbook.png',
+  status: 'Completed',
+  isFeatured: true,
+  isPublished: true,
+  sortOrder: 2,
 
-    overview:
-      'FitBook is a full stack booking application created for group training session management. Users can create an account, log in, browse available sessions, book training times and manage their personal reservations. The admin side allows reviewing bookings, changing statuses and monitoring activity through dashboard-style views.',
-    role:
-      'I worked on the full stack implementation and helped connect the frontend booking flow with backend API logic. The project involved authentication, protected routes, booking management, admin functionality, database integration and API documentation.',
-    methodology:
-      'The project followed a practical full stack development approach with separated frontend and backend responsibilities. Features were built around real user flows: authentication, session browsing, booking creation, user booking history and admin booking management.',
-    projectManagement:
-      'The work was organized as a team learning project with GitHub collaboration and feature-based development. The focus was on building a working full stack application with realistic flows and a clear separation between user and admin responsibilities.',
-    developmentProcess:
-      'The frontend was built with React, Vite, Tailwind CSS and Zustand for state management. The backend was built with Express and PostgreSQL, using JWT authentication and protected endpoints. Booking status logic was implemented so the admin could confirm, complete or cancel reservations. Swagger documentation was used to describe and test API endpoints.',
-    testingProcess:
-      'Testing was performed manually by registering users, logging in, creating bookings, viewing personal reservations and checking admin booking status updates. API endpoints were tested during development to confirm that protected routes, authentication and booking state changes worked correctly.',
-    lessonsLearned:
-      'FitBook helped me better understand full stack user flows, JWT authentication, admin/user separation, booking status logic and how frontend state connects with backend API responses. It also gave practical experience working with a team project structure.',
-    problemsSolved: [
-      'Connected user authentication with protected frontend routes.',
-      'Implemented booking creation and user booking history.',
-      'Added admin booking status management.',
-      'Handled frontend loading, empty and error states.',
-      'Connected backend API responses with Zustand frontend state.',
-    ],
-    techDetails: [
-      'React and Vite were used for the frontend application.',
-      'Tailwind CSS handled responsive UI styling.',
-      'Zustand managed authentication and app state.',
-      'Express provided REST API endpoints.',
-      'PostgreSQL stored users, sessions and bookings.',
-      'JWT was used for authentication and protected access.',
-      'Docker supported local development setup.',
-      'Swagger API docs helped document and test backend endpoints.',
-    ],
-    images: [
-      {
-        url: '/projects/fitbook.png',
-        alt: 'FitBook booking application screenshot',
-        caption: 'Training booking interface showing the main full stack booking flow.',
-        sortOrder: 1,
-      },
-    ],
-  },
+  overview:
+    'FitBook is a full stack booking application created for group training session management. Users can create an account, log in, browse available sessions, book training times and manage their personal reservations. The admin side allows reviewing bookings, changing booking statuses and monitoring activity through dashboard-style views. The project was built as a team project and focused not only on implementation, but also on collaboration, testing feedback and improving the product through bug fixing.',
+  role:
+    'I worked on the full stack implementation and helped connect the frontend booking flow with backend API logic. My work involved authentication, protected routes, booking management, admin functionality, database integration and API documentation. I also participated in team workflow, bug fixing and improving features based on testing feedback.',
+  methodology:
+    'The project followed a Scrum-style workflow with team collaboration, task planning and iterative development. Work was split into smaller tasks, discussed with the team and tracked through Jira. The focus was on building a working full stack product step by step instead of trying to complete everything at once.',
+  projectManagement:
+    'The project was organized as a team learning project using GitHub collaboration and Jira task tracking. Tasks were divided between team members, progress was reviewed regularly and testers helped identify bugs and usability issues. Reported problems were then discussed, prioritized and fixed during development.',
+  developmentProcess:
+    'The frontend was built with React, Vite, Tailwind CSS and Zustand for state management. The backend was built with Express and PostgreSQL, using JWT authentication and protected endpoints. Booking status logic was implemented so the admin could confirm, complete or cancel reservations. Swagger documentation was used to describe and test API endpoints. The project required connecting user-facing booking flows with backend data, admin management and real database persistence.',
+  testingProcess:
+    'Testing was performed manually by registering users, logging in, creating bookings, viewing personal reservations and checking admin booking status updates. Testers also reviewed the application and reported bugs or confusing user flows. Based on that feedback, issues were fixed, UI behavior was adjusted and the booking process was improved.',
+  lessonsLearned:
+    'FitBook helped me better understand full stack user flows, JWT authentication, admin/user separation, booking status logic and how frontend state connects with backend API responses. It also gave practical experience working in a team, using Scrum-style task planning, tracking work in Jira, receiving tester feedback and fixing bugs during development.',
+  problemsSolved: [
+    'Connected user authentication with protected frontend routes.',
+    'Implemented booking creation and user booking history.',
+    'Added admin booking status management.',
+    'Handled frontend loading, empty and error states.',
+    'Connected backend API responses with Zustand frontend state.',
+    'Used Jira to organize tasks and track project progress.',
+    'Fixed bugs reported during testing and improved the user flow.',
+  ],
+  techDetails: [
+    'React and Vite were used for the frontend application.',
+    'Tailwind CSS handled responsive UI styling.',
+    'Zustand managed authentication and app state.',
+    'Express provided REST API endpoints.',
+    'PostgreSQL stored users, sessions and bookings.',
+    'JWT was used for authentication and protected access.',
+    'Docker supported local development setup.',
+    'Swagger API docs helped document and test backend endpoints.',
+    'Jira was used for task tracking and team workflow.',
+    'Scrum-style planning helped organize team development work.',
+  ],
+  images: [
+    {
+      url: '/projects/fitbook.png',
+      alt: 'FitBook booking application screenshot',
+      caption: 'Training booking interface showing the main full stack booking flow.',
+      sortOrder: 1,
+    },
+  ],
+},
   {
     title: 'PetClinic Full Stack',
     slug: 'petclinic-fullstack',
@@ -247,70 +257,80 @@ const projects = [
     ],
   },
   {
-    title: 'PayAPI Multi-page Website',
-    slug: 'payapi-website',
-    type: 'Frontend Multi-page Website',
-    description:
-      'A responsive team-built multi-page marketing website built with HTML, CSS and JavaScript. The project includes Home, About, Pricing and Contact pages, responsive layouts, mobile navigation, reusable visual assets and a contact form interface.',
-    stack: [
-      'HTML',
-      'CSS',
-      'JavaScript',
-      'Responsive Design',
-      'Multi-page Website',
-    ],
-    highlights: [
-      'Responsive Layout',
-      'Mobile Navigation',
-      'Multi-page Structure',
-      'Pricing Page',
-      'Static Website',
-    ],
-    githubUrl: 'https://github.com/AugustinaCodes/techin_null_team',
-    liveUrl: null,
-    imageUrl: '/projects/payapi-website.png',
-    status: 'Completed',
-    isFeatured: true,
-    isPublished: true,
-    sortOrder: 4,
+  title: 'PayAPI Multi-page Website',
+  slug: 'payapi-website',
+  type: 'Frontend Multi-page Website',
+  description:
+    'A responsive team-built multi-page marketing website created with HTML, CSS and JavaScript. The project was developed with team collaboration, Scrum-style planning, Jira task tracking, testing feedback and bug fixing across Home, About, Pricing and Contact pages.',
+  stack: [
+    'HTML',
+    'CSS',
+    'JavaScript',
+    'Responsive Design',
+    'Multi-page Website',
+    'Jira',
+    'Scrum',
+  ],
+  highlights: [
+    'Team Project',
+    'Scrum Workflow',
+    'Jira Task Management',
+    'Responsive Layout',
+    'Mobile Navigation',
+    'Multi-page Structure',
+    'Pricing Page',
+    'Testing Feedback',
+    'Bug Fixing',
+  ],
+  githubUrl: 'https://github.com/AugustinaCodes/techin_null_team',
+  liveUrl: null,
+  imageUrl: '/projects/payapi-website.png',
+  status: 'Completed',
+  isFeatured: true,
+  isPublished: true,
+  sortOrder: 4,
 
-    overview:
-      'PayAPI is a responsive multi-page marketing website built with HTML, CSS and JavaScript. The website includes several pages such as Home, About, Pricing and Contact. It focuses on static website structure, responsive layouts, navigation behavior, reusable assets and polished frontend presentation.',
-    role:
-      'I contributed to the frontend implementation as part of a team project. The work focused on page layout, responsive behavior, styling, navigation and preparing the project for portfolio presentation.',
-    methodology:
-      'The project followed a classic static website structure with separate HTML pages, CSS styling files, JavaScript behavior and shared assets. The goal was to translate a marketing website design into a working responsive frontend.',
-    projectManagement:
-      'The project was completed as a team frontend assignment. The final repository was prepared for GitHub presentation with a clear project description and representative screenshot.',
-    developmentProcess:
-      'The website was built using semantic HTML, CSS and JavaScript. Pages were separated by purpose, including pricing and contact pages. CSS was used to create responsive sections, card layouts, navigation styling and visual consistency across the website.',
-    testingProcess:
-      'The website was tested manually by opening different pages, checking navigation links, reviewing layout behavior and comparing desktop/mobile responsiveness. The pricing page was selected as the portfolio screenshot because it has the clearest structure and strongest visual layout.',
-    lessonsLearned:
-      'This project helped improve static frontend fundamentals, responsive layout thinking, multi-page website structure, team collaboration and the importance of clean visual presentation in portfolio screenshots.',
-    problemsSolved: [
-      'Created a responsive multi-page website structure.',
-      'Built consistent navigation across pages.',
-      'Implemented pricing card layout.',
-      'Prepared static assets and page sections for presentation.',
-      'Selected the strongest screenshot for portfolio display.',
-    ],
-    techDetails: [
-      'HTML was used for page structure and content.',
-      'CSS handled layout, typography, spacing and responsiveness.',
-      'JavaScript was used for interactive frontend behavior.',
-      'Responsive design techniques were used to adapt the layout for different screens.',
-      'The project was organized as a static multi-page website.',
-    ],
-    images: [
-      {
-        url: '/projects/payapi-website.png',
-        alt: 'PayAPI pricing page screenshot',
-        caption: 'Pricing page layout showing a clean multi-column marketing website structure.',
-        sortOrder: 1,
-      },
-    ],
-  },
+  overview:
+    'PayAPI is a responsive multi-page marketing website built with HTML, CSS and JavaScript. The website includes Home, About, Pricing and Contact pages. It focuses on static website structure, responsive layouts, navigation behavior, reusable assets and polished frontend presentation. The project was completed as a team assignment with task planning, testing feedback and bug fixing.',
+  role:
+    'I contributed to the frontend implementation as part of a team project. The work focused on page layout, responsive behavior, styling, navigation and preparing the project for portfolio presentation. I also participated in fixing layout and usability issues that were discovered during testing.',
+  methodology:
+    'The project followed a Scrum-style team workflow with tasks divided between team members. Jira was used to track work, organize progress and make the development process clearer. The goal was to translate a marketing website design into a working responsive frontend while collaborating as a team.',
+  projectManagement:
+    'The project was completed as a team frontend assignment. Work was organized with Jira tasks, team discussions and testing feedback. Testers helped identify visual, responsive and usability problems, which were then fixed and reviewed during development.',
+  developmentProcess:
+    'The website was built using semantic HTML, CSS and JavaScript. Pages were separated by purpose, including Home, About, Pricing and Contact. CSS was used to create responsive sections, card layouts, navigation styling and visual consistency across the website. JavaScript handled interactive behavior such as navigation-related functionality.',
+  testingProcess:
+    'The website was tested manually by opening different pages, checking navigation links, reviewing layout behavior and comparing desktop/mobile responsiveness. Testing feedback helped identify spacing, layout and usability issues. The pricing page was selected as the portfolio screenshot because it has the clearest structure and strongest visual layout.',
+  lessonsLearned:
+    'This project helped improve static frontend fundamentals, responsive layout thinking, multi-page website structure, team collaboration and the importance of clean visual presentation in portfolio screenshots. It also gave more practice working with Jira, team planning, tester feedback and bug fixing.',
+  problemsSolved: [
+    'Created a responsive multi-page website structure.',
+    'Built consistent navigation across pages.',
+    'Implemented pricing card layout.',
+    'Prepared static assets and page sections for presentation.',
+    'Selected the strongest screenshot for portfolio display.',
+    'Used Jira to organize frontend tasks.',
+    'Fixed layout and usability issues found during testing.',
+  ],
+  techDetails: [
+    'HTML was used for page structure and content.',
+    'CSS handled layout, typography, spacing and responsiveness.',
+    'JavaScript was used for interactive frontend behavior.',
+    'Responsive design techniques were used to adapt the layout for different screens.',
+    'The project was organized as a static multi-page website.',
+    'Jira was used for task tracking and team coordination.',
+    'Scrum-style workflow helped divide work into smaller frontend tasks.',
+  ],
+  images: [
+    {
+      url: '/projects/payapi-website.png',
+      alt: 'PayAPI pricing page screenshot',
+      caption: 'Pricing page layout showing a clean multi-column marketing website structure.',
+      sortOrder: 1,
+    },
+  ],
+},
 ];
 
 /**
