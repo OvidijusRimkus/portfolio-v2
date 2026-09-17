@@ -3,6 +3,16 @@
 import { prisma } from '../../db/prisma.js';
 import { AppError } from '../../utils/AppError.js';
 
+const projectImageSelect = {
+  id: true,
+  url: true,
+  alt: true,
+  caption: true,
+  sortOrder: true,
+  createdAt: true,
+  updatedAt: true,
+};
+
 const publicProjectSelect = {
   id: true,
   title: true,
@@ -18,9 +28,36 @@ const publicProjectSelect = {
   isFeatured: true,
   isPublished: true,
   sortOrder: true,
+
+  overview: true,
+  role: true,
+  methodology: true,
+  projectManagement: true,
+  developmentProcess: true,
+  testingProcess: true,
+  lessonsLearned: true,
+  problemsSolved: true,
+  techDetails: true,
+
+  images: {
+    orderBy: {
+      sortOrder: 'asc',
+    },
+    select: projectImageSelect,
+  },
+
   createdAt: true,
   updatedAt: true,
 };
+
+function splitProjectPayload(data) {
+  const { images, ...projectData } = data;
+
+  return {
+    projectData,
+    images,
+  };
+}
 
 /**
  * Grąžina publikuotus projektus public portfolio puslapiui.
@@ -108,8 +145,17 @@ export async function createProject(data) {
     throw new AppError('Project with this slug already exists', 409);
   }
 
+  const { projectData, images } = splitProjectPayload(data);
+
   const project = await prisma.project.create({
-    data,
+    data: {
+      ...projectData,
+      images: images
+        ? {
+            create: images,
+          }
+        : undefined,
+    },
     select: publicProjectSelect,
   });
 
@@ -118,6 +164,10 @@ export async function createProject(data) {
 
 /**
  * Atnaujina projektą pagal id.
+ *
+ * Jeigu request body turi images masyvą, senos projekto nuotraukos
+ * yra pakeičiamos naujomis. Jeigu images nėra pateiktas,
+ * galerijos neliečiame.
  */
 export async function updateProject(id, data) {
   const existingProject = await prisma.project.findUnique({
@@ -148,12 +198,39 @@ export async function updateProject(id, data) {
     }
   }
 
-  const project = await prisma.project.update({
-    where: {
-      id,
-    },
-    data,
-    select: publicProjectSelect,
+  const { projectData, images } = splitProjectPayload(data);
+
+  if (images === undefined) {
+    const project = await prisma.project.update({
+      where: {
+        id,
+      },
+      data: projectData,
+      select: publicProjectSelect,
+    });
+
+    return project;
+  }
+
+  const project = await prisma.$transaction(async (tx) => {
+    await tx.projectImage.deleteMany({
+      where: {
+        projectId: id,
+      },
+    });
+
+    return tx.project.update({
+      where: {
+        id,
+      },
+      data: {
+        ...projectData,
+        images: {
+          create: images,
+        },
+      },
+      select: publicProjectSelect,
+    });
   });
 
   return project;
@@ -161,6 +238,8 @@ export async function updateProject(id, data) {
 
 /**
  * Ištrina projektą pagal id.
+ *
+ * ProjectImage įrašai išsitrins automatiškai dėl onDelete: Cascade.
  */
 export async function deleteProject(id) {
   const existingProject = await prisma.project.findUnique({
