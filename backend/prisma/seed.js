@@ -85,13 +85,25 @@ const projects = [
       'Vercel, Render and Neon are used for production deployment.',
     ],
     images: [
-      {
-        url: '/projects/portfolio-v2.png',
-        alt: 'Portfolio v2 homepage hero section',
-        caption: 'Premium portfolio homepage with hero section and project positioning.',
-        sortOrder: 1,
-      },
-    ],
+  {
+    url: '/projects/portfolio-v2.png',
+    alt: 'Portfolio v2 homepage hero section',
+    caption: 'Premium portfolio homepage with hero section and project positioning.',
+    sortOrder: 1,
+  },
+  {
+    url: '/projects/portfolio-v2-admin.png',
+    alt: 'Portfolio v2 admin dashboard analytics overview',
+    caption: 'Protected admin dashboard with analytics summary and portfolio management tabs.',
+    sortOrder: 2,
+  },
+  {
+    url: '/projects/portfolio-v2-case-study.png',
+    alt: 'Portfolio v2 project case study details page',
+    caption: 'Project details page rebuilt as a case study layout with summary, highlights and technical sections.',
+    sortOrder: 3,
+  },
+],
   },
   {
   title: 'FitBook',
@@ -166,13 +178,43 @@ const projects = [
     'Scrum-style planning helped organize team development work.',
   ],
   images: [
-    {
-      url: '/projects/fitbook.png',
-      alt: 'FitBook booking application screenshot',
-      caption: 'Training booking interface showing the main full stack booking flow.',
-      sortOrder: 1,
-    },
-  ],
+  {
+    url: '/projects/fitbook.png',
+    alt: 'FitBook available training sessions page',
+    caption: 'Public training sessions page where users can browse and book available workouts.',
+    sortOrder: 1,
+  },
+  {
+    url: '/projects/fitbook-login.png',
+    alt: 'FitBook login page',
+    caption: 'Login page for users to access and manage their training schedule.',
+    sortOrder: 2,
+  },
+  {
+    url: '/projects/fitbook-register.png',
+    alt: 'FitBook registration page',
+    caption: 'Registration page for creating a new FitBook user profile.',
+    sortOrder: 3,
+  },
+  {
+    url: '/projects/fitbook-admin-bookings.png',
+    alt: 'FitBook admin booking management page',
+    caption: 'Admin booking management view for confirming, completing and cancelling user bookings.',
+    sortOrder: 4,
+  },
+  {
+    url: '/projects/fitbook-admin-sessions.png',
+    alt: 'FitBook admin training session management page',
+    caption: 'Admin session management page for creating, editing and deleting training sessions.',
+    sortOrder: 5,
+  },
+  {
+    url: '/projects/fitbook-analytics.png',
+    alt: 'FitBook analytics dashboard',
+    caption: 'Analytics dashboard showing users, sessions, bookings and booking status distribution.',
+    sortOrder: 6,
+  },
+],
 },
   {
     title: 'PetClinic Full Stack',
@@ -248,13 +290,28 @@ const projects = [
       'Docker Compose provides a repeatable local development setup.',
     ],
     images: [
-      {
-        url: '/projects/petclinic-fullstack.png',
-        alt: 'PetClinic admin dashboard screenshot',
-        caption: 'Admin dashboard with clinic calendar, appointment overview and key statistics.',
-        sortOrder: 1,
-      },
-    ],
+  {
+    url: '/projects/petclinic-fullstack.png',
+    alt: 'PetClinic homepage and login screen',
+    caption:
+      'Homepage with login, signup and demo access for the veterinary appointment system.',
+    sortOrder: 1,
+  },
+  {
+    url: '/projects/petclinic-patient-dashboard.png',
+    alt: 'PetClinic patient dashboard',
+    caption:
+      'Patient dashboard for managing pets, booking appointments and viewing visit status.',
+    sortOrder: 2,
+  },
+  {
+    url: '/projects/petclinic-admin-dashboard.png',
+    alt: 'PetClinic admin dashboard',
+    caption:
+      'Admin dashboard with clinic calendar, appointment overview and key statistics.',
+    sortOrder: 3,
+  },
+],
   },
   {
   title: 'PayAPI Multi-page Website',
