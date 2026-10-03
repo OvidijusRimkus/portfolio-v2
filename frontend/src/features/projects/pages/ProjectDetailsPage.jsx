@@ -1,8 +1,11 @@
 // frontend/src/features/projects/pages/ProjectDetailsPage.jsx
 
 import { useEffect, useState } from 'react';
+
 import { Link, useParams } from 'react-router-dom';
+
 import { motion } from 'motion/react';
+
 import {
   FiArrowLeft,
   FiArrowUpRight,
@@ -16,6 +19,7 @@ import {
   FiLayout,
   FiShield,
   FiTool,
+  FiX,
 } from 'react-icons/fi';
 
 import { Button } from '../../../shared/components/Button.jsx';
@@ -37,6 +41,7 @@ export function ProjectDetailsPage() {
   const [project, setProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
 
   usePageTitle(
     project
@@ -82,8 +87,13 @@ export function ProjectDetailsPage() {
       <ProjectHero project={project} />
       <ProjectPreviewSection project={project} />
       <ProjectCaseStudy project={project} />
-      <ProjectGallery project={project} />
+      <ProjectGallery project={project} onImageClick={setSelectedImage} />
       <ProjectFinalCta project={project} />
+
+      <ProjectImageLightbox
+        image={selectedImage}
+        onClose={() => setSelectedImage(null)}
+      />
 
       <Footer />
     </main>
@@ -226,6 +236,7 @@ function ProjectPreviewSection({ project }) {
     </section>
   );
 }
+
 function ProjectCaseStudy({ project }) {
   return (
     <section className="py-16 sm:py-24">
@@ -429,6 +440,7 @@ function HighlightsCard({ project }) {
     </motion.article>
   );
 }
+
 function CaseStudySection({ eyebrow, title, icon, content, secondaryContent }) {
   if (!content && !secondaryContent) {
     return null;
@@ -482,7 +494,7 @@ function ListSection({ eyebrow, title, icon, items = [] }) {
   );
 }
 
-function ProjectGallery({ project }) {
+function ProjectGallery({ project, onImageClick }) {
   if (!project.images?.length) {
     return null;
   }
@@ -494,12 +506,14 @@ function ProjectGallery({ project }) {
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-amber-300/80">
             Gallery
           </p>
+
           <h2 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-white sm:text-5xl">
             Project screenshots
           </h2>
+
           <p className="mt-5 text-base leading-8 text-white/50">
             A visual look at the main screens and presentation assets used in this
-            project.
+            project. Click any image to view it fullscreen.
           </p>
         </div>
 
@@ -513,12 +527,19 @@ function ProjectGallery({ project }) {
               transition={{ duration: 0.45, delay: index * 0.03 }}
               className="overflow-hidden rounded-[2rem] border border-white/10 bg-black/30 p-3 shadow-2xl shadow-black/30"
             >
-              <img
-                src={image.url}
-                alt={image.alt}
-                className="max-h-[720px] w-full rounded-[1.5rem] object-cover object-top"
-                loading="lazy"
-              />
+              <button
+                type="button"
+                onClick={() => onImageClick(image)}
+                className="group block w-full overflow-hidden rounded-[1.5rem] text-left"
+                aria-label={`Open ${image.alt || project.title} screenshot fullscreen`}
+              >
+                <img
+                  src={image.url}
+                  alt={image.alt}
+                  className="max-h-[720px] w-full rounded-[1.5rem] object-cover object-top transition duration-500 group-hover:scale-[1.015] group-hover:opacity-90"
+                  loading="lazy"
+                />
+              </button>
 
               {(image.caption || image.alt) && (
                 <figcaption className="px-3 py-4 text-sm leading-6 text-white/45">
@@ -530,6 +551,83 @@ function ProjectGallery({ project }) {
         </div>
       </Container>
     </section>
+  );
+}
+
+function ProjectImageLightbox({ image, onClose }) {
+  useEffect(() => {
+    if (!image) {
+      return undefined;
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+
+    const originalOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [image, onClose]);
+
+  if (!image) {
+    return null;
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 px-4 py-6 backdrop-blur-xl sm:px-6"
+      role="dialog"
+      aria-modal="true"
+      aria-label={image.alt || 'Project screenshot fullscreen preview'}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute inset-0 cursor-zoom-out"
+        aria-label="Close fullscreen image preview"
+      />
+
+      <div className="relative z-10 flex max-h-full w-full max-w-7xl flex-col">
+        <div className="mb-4 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-300/80">
+              Preview
+            </p>
+
+            {(image.caption || image.alt) && (
+              <p className="mt-2 text-sm text-white/55">
+                {image.caption || image.alt}
+              </p>
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06] text-white transition hover:border-amber-400/30 hover:bg-white/[0.1]"
+            aria-label="Close image preview"
+          >
+            <FiX />
+          </button>
+        </div>
+
+        <div className="relative overflow-auto rounded-[1.5rem] border border-white/10 bg-black shadow-2xl shadow-black/60">
+          <img
+            src={image.url}
+            alt={image.alt}
+            className="mx-auto max-h-[82vh] w-auto max-w-full object-contain"
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 
