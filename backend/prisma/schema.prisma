@@ -11,7 +11,6 @@ datasource db {
 
 /**
  * Admin modelis.
- *
  * Registracijos nebus.
  * Admin vartotoją sukuriame per seed iš .env.
  */
@@ -62,12 +61,8 @@ model AnalyticsEvent {
 
 /**
  * Project modelis saugo portfolio projektus.
- *
- * Vėliau Admin Dashboard galės:
- * - sukurti projektą;
- * - redaguoti projektą;
- * - paslėpti / publikuoti projektą;
- * - keisti featured statusą.
+ * Dabar projektai palaiko ne tik kortelės informaciją,
+ * bet ir pilną case study turinį Project Details puslapiui.
  */
 model Project {
   id          String   @id @default(uuid())
@@ -77,18 +72,62 @@ model Project {
   description String
   stack       String[]
   highlights  String[]
-  githubUrl   String?
-  liveUrl     String?
-  imageUrl    String?
-  status      String   @default("In progress")
-  isFeatured  Boolean  @default(false)
-  isPublished Boolean  @default(true)
-  sortOrder   Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+  githubUrl String?
+  liveUrl   String?
+  imageUrl  String?
+
+  status      String  @default("In progress")
+  isFeatured  Boolean @default(false)
+  isPublished Boolean @default(true)
+  sortOrder   Int     @default(0)
+
+  overview           String?
+  role               String?
+  methodology        String?
+  projectManagement  String?
+  developmentProcess String?
+  testingProcess     String?
+  lessonsLearned     String?
+
+  problemsSolved String[] @default([])
+  techDetails    String[] @default([])
+
+  images ProjectImage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([slug])
   @@index([isFeatured])
   @@index([isPublished])
+  @@index([sortOrder])
   @@map("projects")
+}
+
+/**
+ * ProjectImage modelis saugo papildomus projekto screenshotus.
+ * Vienas projektas gali turėti kelias nuotraukas:
+ * - cover screenshot
+ * - dashboard screenshot
+ * - admin screenshot
+ * - mobile screenshot
+ * - details screenshot
+ */
+model ProjectImage {
+  id        String  @id @default(uuid())
+  projectId String
+  url       String
+  alt       String
+  caption   String?
+  sortOrder Int     @default(0)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([projectId])
+  @@index([sortOrder])
+  @@map("project_images")
 }

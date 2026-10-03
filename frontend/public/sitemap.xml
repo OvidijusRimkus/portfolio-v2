@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+>
+  <url>
+    <loc>https://ovidijusrimkus.com/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://ovidijusrimkus.com/projects/portfolio-v2</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://ovidijusrimkus.com/projects/fitbook</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://ovidijusrimkus.com/projects/petclinic-fullstack</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://ovidijusrimkus.com/projects/payapi-website</loc>
+    <priority>0.8</priority>
+  </url>
+</urlset>

@@ -9,20 +9,29 @@ import { ProtectedRoute } from '../features/auth/components/ProtectedRoute.jsx';
 import { LoginPage } from '../features/auth/pages/LoginPage.jsx';
 import { HomePage } from '../features/home/pages/HomePage.jsx';
 import { ProjectDetailsPage } from '../features/projects/pages/ProjectDetailsPage.jsx';
+import { HashScrollHandler } from '../shared/components/HashScrollHandler.jsx';
 import { AppErrorPage } from '../shared/pages/AppErrorPage.jsx';
 import { NotFoundPage } from '../shared/pages/NotFoundPage.jsx';
 
 /**
  * RootRoute naudojamas visai aplikacijai.
  *
- * Čia paliekame tik page view tracking.
+ * Čia laikome globalius public route efektus:
+ * - page view tracking
+ * - hash scroll handling tarp puslapių, pvz. /projects/fitbook -> /#process
+ *
  * Auth check čia NEBETURI būti, nes public puslapiams nereikia
  * kiekvieną kartą kviesti /api/auth/me.
  */
 function RootRoute() {
   usePageViewTracking();
 
-  return <Outlet />;
+  return (
+    <>
+      <HashScrollHandler />
+      <Outlet />
+    </>
+  );
 }
 
 /**

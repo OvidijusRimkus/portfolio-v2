@@ -95,10 +95,10 @@ export function FeaturedProjects() {
 function ProjectCard({ project, index }) {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.55, delay: index * 0.08 }}
+      viewport={{ once: true, amount: 0.05 }}
+      transition={{ duration: 0.45, delay: index * 0.04 }}
       className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/25 backdrop-blur-xl transition hover:border-amber-400/30 hover:bg-white/[0.06] sm:p-8"
     >
       <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-amber-400/10 blur-3xl transition group-hover:bg-amber-400/20" />
