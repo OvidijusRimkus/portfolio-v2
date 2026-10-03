@@ -76,7 +76,7 @@ export function ProjectDetailsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white">
+    <main className="min-h-[100dvh] overflow-x-hidden bg-[#050505] text-white">
       <Header />
 
       <ProjectHero project={project} />
@@ -92,7 +92,7 @@ export function ProjectDetailsPage() {
 
 function ProjectHero({ project }) {
   return (
-    <section className="relative overflow-hidden border-b border-white/10 pb-12 pt-32 sm:pb-16">
+    <section className="relative overflow-x-hidden border-b border-white/10 pb-12 pt-32 sm:pb-16">
       <div className="absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-amber-400/10 blur-3xl" />
       <div className="absolute right-0 top-20 h-[22rem] w-[22rem] rounded-full bg-white/[0.04] blur-3xl" />
 
@@ -626,7 +626,7 @@ function InfoRow({ icon, label, value }) {
 
 function ProjectDetailsLoading() {
   return (
-    <main className="min-h-screen bg-[#050505] py-20 text-white">
+    <main className="min-h-[100dvh] overflow-x-hidden bg-[#050505] py-20 text-white">
       <Header />
 
       <Container>
@@ -645,7 +645,7 @@ function ProjectDetailsLoading() {
 
 function ProjectDetailsError({ message }) {
   return (
-    <main className="min-h-screen bg-[#050505] py-20 text-white">
+    <main className="min-h-[100dvh] overflow-x-hidden bg-[#050505] py-20 text-white">
       <Header />
 
       <Container>
