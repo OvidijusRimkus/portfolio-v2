@@ -4,26 +4,36 @@
 >
   <url>
     <loc>https://ovidijusrimkus.com/</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://ovidijusrimkus.com/projects/portfolio-v2</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://ovidijusrimkus.com/projects/fitbook</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://ovidijusrimkus.com/projects/petclinic-fullstack</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://ovidijusrimkus.com/projects/payapi-website</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>
