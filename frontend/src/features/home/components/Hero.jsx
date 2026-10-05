@@ -31,26 +31,30 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/70 shadow-2xl shadow-black/30 backdrop-blur-xl">
-              <span className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.9)]" />
-              Full Stack Developer Portfolio v2
-            </div>
+           <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/70 shadow-2xl shadow-black/30 backdrop-blur-xl">
+  <span className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.9)]" />
+  Full Stack Developer Portfolio v2
+</div>
 
-            <h1 className="max-w-4xl text-5xl font-semibold tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl">
-              Building clean, fast and premium web experiences.
-            </h1>
+<h1 className="text-base font-semibold uppercase tracking-[0.32em] text-amber-300/90 sm:text-lg">
+  Ovidijus Rimkus
+</h1>
 
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-white/60 sm:text-xl">
-              I design and build full stack applications with React, Express,
-              PostgreSQL and Prisma — focused on clean architecture, modern UI
-              and real-world product thinking.
-            </p>
+<p className="mt-5 max-w-4xl text-5xl font-semibold leading-[0.95] tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl">
+  Building clean, fast and premium web experiences.
+</p>
 
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Button href="#projects">
-                View projects
-                <FiArrowUpRight />
-              </Button>
+<p className="mt-7 max-w-2xl text-lg leading-8 text-white/60 sm:text-xl">
+  I design and build full stack applications with React, Express,
+  PostgreSQL and Prisma — focused on clean architecture, modern UI
+  and real-world product thinking.
+</p>
+
+<div className="mt-10 flex flex-col gap-4 sm:flex-row">
+  <Button href="#projects">
+    View projects
+    <FiArrowUpRight />
+  </Button>
 
               <Button href="#contact" variant="secondary">
                 <FiMail />
