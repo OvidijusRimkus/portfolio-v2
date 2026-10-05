@@ -1,50 +1,98 @@
 // frontend/src/shared/layouts/Header.jsx
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { FiGithub, FiGrid, FiMenu, FiX } from "react-icons/fi";
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FiGithub, FiGrid, FiMenu, FiX } from 'react-icons/fi';
 
-import { Container } from "../components/Container.jsx";
+import { Container } from '../components/Container.jsx';
 
 const navLinks = [
   {
-    label: "Home",
-    href: "/",
+    label: 'Home',
+    href: '/',
   },
   {
-    label: "About",
-    href: "/#about",
+    label: 'About',
+    href: '/#about',
   },
   {
-    label: "Process",
-    href: "/#process",
+    label: 'Process',
+    href: '/#process',
   },
   {
-    label: "Projects",
-    href: "/#projects",
+    label: 'Projects',
+    href: '/#projects',
   },
   {
-    label: "Contact",
-    href: "/#contact",
+    label: 'Contact',
+    href: '/#contact',
   },
 ];
 
 /**
  * Public portfolio header.
  *
- * Fixed glassmorphism navigacija public puslapiams:
- * - HomePage
- * - ProjectDetailsPage
+ * Desktop:
+ * - header remains visible.
+ *
+ * Mobile:
+ * - scroll down hides the header;
+ * - scroll up shows the header;
+ * - top of page always shows the header;
+ * - opened mobile menu keeps the header visible.
  */
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+
+  const lastScrollYRef = useRef(0);
+
+  useEffect(() => {
+    function handleScroll() {
+      const currentScrollY = window.scrollY;
+      const isMobileViewport = window.innerWidth < 768;
+      const isScrollingDown = currentScrollY > lastScrollYRef.current;
+      const hasScrolledEnough = currentScrollY > 96;
+
+      if (!isMobileViewport || isOpen) {
+        setIsHeaderVisible(true);
+        lastScrollYRef.current = currentScrollY;
+        return;
+      }
+
+      if (!hasScrolledEnough) {
+        setIsHeaderVisible(true);
+        lastScrollYRef.current = currentScrollY;
+        return;
+      }
+
+      setIsHeaderVisible(!isScrollingDown);
+      lastScrollYRef.current = currentScrollY;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isOpen]);
 
   function closeMenu() {
     setIsOpen(false);
+    setIsHeaderVisible(true);
+  }
+
+  function toggleMenu() {
+    setIsHeaderVisible(true);
+    setIsOpen((currentValue) => !currentValue);
   }
 
   return (
-    <header className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-black/40 backdrop-blur-2xl">
+    <header
+      className={`fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-black/40 backdrop-blur-2xl transition-transform duration-300 ease-out md:translate-y-0 ${
+        isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}
+    >
       <Container>
         <div className="flex h-20 items-center justify-between">
           <Link
@@ -86,9 +134,10 @@ export function Header() {
 
           <button
             type="button"
-            onClick={() => setIsOpen((currentValue) => !currentValue)}
+            onClick={toggleMenu}
             className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white transition hover:border-amber-400/30 md:hidden"
             aria-label="Toggle navigation"
+            aria-expanded={isOpen}
           >
             {isOpen ? <FiX /> : <FiMenu />}
           </button>
