@@ -59,24 +59,40 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Ovidijus Rimkus",
-        "url": "https://ovidijusrimkus.com/",
-        "jobTitle": "Full Stack Developer",
-        "sameAs": [
-          "https://github.com/OvidijusRimkus",
-          "https://www.linkedin.com/in/ovidijus-rimkus/"
-        ],
-        "knowsAbout": [
-          "React",
-          "JavaScript",
-          "Node.js",
-          "Express",
-          "PostgreSQL",
-          "Prisma",
-          "Docker",
-          "Full Stack Development",
-          "REST APIs"
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://ovidijusrimkus.com/#website",
+            "url": "https://ovidijusrimkus.com/",
+            "name": "Ovidijus Rimkus Portfolio",
+            "description": "Ovidijus Rimkus Full Stack Developer portfolio with React, Node.js, Express, PostgreSQL, Prisma and full stack project case studies.",
+            "inLanguage": "en",
+            "publisher": {
+              "@id": "https://ovidijusrimkus.com/#person"
+            }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://ovidijusrimkus.com/#person",
+            "name": "Ovidijus Rimkus",
+            "url": "https://ovidijusrimkus.com/",
+            "jobTitle": "Full Stack Developer",
+            "sameAs": [
+              "https://github.com/OvidijusRimkus",
+              "https://www.linkedin.com/in/ovidijus-rimkus/"
+            ],
+            "knowsAbout": [
+              "React",
+              "JavaScript",
+              "Node.js",
+              "Express",
+              "PostgreSQL",
+              "Prisma",
+              "Docker",
+              "Full Stack Development",
+              "REST APIs"
+            ]
+          }
         ]
       }
     </script>
